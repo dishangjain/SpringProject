@@ -13,7 +13,7 @@ create table users(
 	address varchar(25),
 	email varchar(30),
 	status varchar(15)
-);  
+);
 
 create table hotels(
 	hotel_id varchar(4) primary key,
