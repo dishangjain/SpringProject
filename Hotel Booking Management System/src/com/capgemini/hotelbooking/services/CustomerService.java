@@ -1,16 +1,20 @@
-package com.capgemini.hotelbooking.service;
+package com.capgemini.hotelbooking.services;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
-import com.capgemini.hotelbooking.bean.BookingBean;
-import com.capgemini.hotelbooking.bean.RoomBean;
-import com.capgemini.hotelbooking.dao.CustomerDao;
-import com.capgemini.hotelbooking.dao.ICustomerDao;
-import com.capgemini.hotelbooking.exception.BookingException;
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.daos.ICustomerDao;
+import com.capgemini.hotelbooking.exceptions.BookingException;
 
+@Service
 public class CustomerService implements ICustomerService {
+	@Resource
 	private ICustomerDao dao;
 	
 	private static String dateStringPattern = "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[012])-[0-9]{4}";
@@ -20,12 +24,6 @@ public class CustomerService implements ICustomerService {
 	private static String numChildrenPattern= "[0-9]{1,2}";
 
 	static Logger myLogger = Logger.getLogger("myLogger");
-	
-	public CustomerService() throws BookingException {
-		myLogger.info("Service: Dao injected.");
-		dao = new CustomerDao();
-	}
-	
 	/*private static boolean isGreaterThanEqual(LocalDate localDate1,LocalDate localDate2)
 	{
 		int diffYears = Math.abs(localDate1.getYear() - localDate2.getYear());
@@ -98,8 +96,8 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public int bookRoom(BookingBean bookingBean) throws BookingException {
-		return dao.bookRoom(bookingBean);
+	public void bookRoom(BookingBean bookingBean) throws BookingException {
+		dao.bookRoom(bookingBean);
 	}
 
 	@Override

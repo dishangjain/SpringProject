@@ -1,0 +1,11 @@
+package com.capgemini.hotelbooking.services;
+
+import java.util.List;
+
+public interface ICommonService {
+	public int registerUser(UserBean userBean) throws BookingException;
+	public UserBean login(String username, String password) throws BookingException;
+	List<HotelBean> retrieveHotels() throws BookingException;
+	List<RoomBean> retrieveRooms() throws BookingException;
+	List<String> retrieveUserNames() throws BookingException;
+}

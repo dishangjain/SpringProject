@@ -1,19 +1,24 @@
-package com.capgemini.hotelbooking.service;
+package com.capgemini.hotelbooking.services;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
-import com.capgemini.hotelbooking.bean.BookingBean;
-import com.capgemini.hotelbooking.bean.HotelBean;
-import com.capgemini.hotelbooking.bean.RoomBean;
-import com.capgemini.hotelbooking.bean.UserBean;
-import com.capgemini.hotelbooking.dao.AdminDao;
-import com.capgemini.hotelbooking.dao.IAdminDao;
-import com.capgemini.hotelbooking.exception.BookingException;
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.daos.IAdminDao;
+import com.capgemini.hotelbooking.exceptions.BookingException;
 
+
+@Service
 public class AdminService implements IAdminService{
+	@Resource
 	IAdminDao dao;
 	
 	private static String hotelIDPattern = "[0-9]{1,4}";
@@ -29,11 +34,6 @@ public class AdminService implements IAdminService{
 	private static String dateStringPattern = "(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}";
 	
 	static Logger myLogger = Logger.getLogger("myLogger");
-	
-	public AdminService() throws BookingException {
-		myLogger.info("Service: Dao injected.");
-		dao = new AdminDao();
-	}
 	
 	/*public static boolean validateDate(String dateString){
 		boolean flag = false;
@@ -180,8 +180,8 @@ public class AdminService implements IAdminService{
 	}
 	
 	@Override
-	public int addHotelDetails(HotelBean hotelBean) throws BookingException {
-		return dao.addHotelDetails(hotelBean);
+	public void addHotelDetails(HotelBean hotelBean) throws BookingException {
+		dao.addHotelDetails(hotelBean);
 	}
 
 	@Override
@@ -207,18 +207,18 @@ public class AdminService implements IAdminService{
 	}
 
 	@Override
-	public boolean deleteHotelDetails(int hotelID) throws BookingException {
-		return dao.deleteHotelDetails(hotelID);
+	public void deleteHotelDetails(int hotelID) throws BookingException {
+		dao.deleteHotelDetails(hotelID);
 	}
 
 	@Override
-	public int addRoomDetails(RoomBean roomBean) throws BookingException {
-		return dao.addRoomDetails(roomBean);
+	public void addRoomDetails(RoomBean roomBean) throws BookingException {
+		dao.addRoomDetails(roomBean);
 	}
 
 	@Override
-	public boolean deleteRoomDetails(int roomID) throws BookingException {
-		return dao.deleteRoomDetails(roomID);
+	public void deleteRoomDetails(int roomID) throws BookingException {
+		dao.deleteRoomDetails(roomID);
 	}
 
 	@Override

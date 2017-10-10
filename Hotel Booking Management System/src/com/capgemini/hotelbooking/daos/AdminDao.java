@@ -9,114 +9,50 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.Logger;
 
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
 
 public class AdminDao implements IAdminDao {
 	static Logger myLogger = Logger.getLogger("myLogger");
 	
-	private int getHotelID() throws BookingException {
-		return 0;
-	}
-	
-	private int getRoomID() throws BookingException {
-		return 0;
-	}
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	@Override
-	public int addRoomDetails(RoomBean roomBean) throws BookingException {
+	public void addRoomDetails(RoomBean roomBean) throws BookingException {
 		myLogger.info("Execution in addRoomDetails()");
-		
-		String query = "insert into ROOMDETAILS(ROOM_ID, HOTEL_ID, ROOM_NO, ROOM_TYPE, PER_NIGHT_RATE, AVAILABILITY, PHOTO)"
-						+ "values (?, ?, ?, ?, ?, 'T', ?)";
-		int recsAffected = 0;
-		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			roomBean.setRoomID(getRoomID());
-			preparedStatement.setInt(1, roomBean.getRoomID());
-			preparedStatement.setInt(2, roomBean.getHotelID());
-			preparedStatement.setString(3, roomBean.getRoomNumber());
-			preparedStatement.setString(4, roomBean.getRoomType());
-			preparedStatement.setFloat(5, roomBean.getPerNightRate());
-			preparedStatement.setString(6, roomBean.getPhoto());
-						
-			myLogger.info("Query Execution : " + query);
-			recsAffected = preparedStatement.executeUpdate();
-			
-			if(recsAffected > 0){
-				myLogger.info("New Entry -> Room ID : "+ roomBean.getRoomID()
-									+ "\nHotel ID : " + roomBean.getHotelID()
-									+ "\nRoom Number: " + roomBean.getRoomNumber()
-									+ "\nRoom Type : " + roomBean.getRoomType()
-									+ "\nPer Night Rate : " + roomBean.getPerNightRate()
-									+ "\nAvailability : " + roomBean.isAvailable()
-									+ "\nPhoto : " + roomBean.getPhoto());
-			}
-			else{
-				myLogger.error("System Error");
-				throw new BookingException("System Error. Try Again Later.");
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from addRoomDetails()", e);
-			throw new BookingException("Problem in adding data.", e);
-		}
-		return roomBean.getRoomID();
+		entityManager.persist(roomBean);
+		myLogger.info("New Entry -> Room ID : "+ roomBean.getRoomID()
+							+ "\nHotel ID : " + roomBean.getHotelID()
+							+ "\nRoom Number: " + roomBean.getRoomNumber()
+							+ "\nRoom Type : " + roomBean.getRoomType()
+							+ "\nPer Night Rate : " + roomBean.getPerNightRate()
+							+ "\nAvailability : " + roomBean.isAvailable()
+							+ "\nPhoto : " + roomBean.getPhoto());
 	}
 
 	@Override
-	public int addHotelDetails(HotelBean hotelBean) throws BookingException {
+	public void addHotelDetails(HotelBean hotelBean) throws BookingException {
 		myLogger.info("Execution in addHotelDetails()");
-		
-		String query = "insert into HOTELS(HOTEL_ID, CITY, HOTEL_NAME, ADDRESS, DESCRIPTION, AVG_RATE_PER_NIGHT, PHONE_NO1,"
-						+ "PHONE_NO2, RATING, EMAIL, FAX) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		int recsAffected = 0;
-		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			hotelBean.setHotelID(getHotelID());
-			preparedStatement.setInt(1, hotelBean.getHotelID());
-			preparedStatement.setString(2, hotelBean.getCity());
-			preparedStatement.setString(3, hotelBean.getHotelName());
-			preparedStatement.setString(4, hotelBean.getAddress());
-			preparedStatement.setString(5, hotelBean.getDescription());
-			preparedStatement.setFloat(6, hotelBean.getAvgRatePerNight());
-			preparedStatement.setString(7, hotelBean.getPhoneNumber1());
-			preparedStatement.setString(8, hotelBean.getPhoneNumber2());
-			preparedStatement.setString(9, hotelBean.getRating());
-			preparedStatement.setString(10, hotelBean.getEmail());
-			preparedStatement.setString(11, hotelBean.getFax());
-						
-			myLogger.info("Query Execution : " + query);
-			recsAffected = preparedStatement.executeUpdate();
-			
-			if(recsAffected > 0){
-				myLogger.info("New Entry -> Hotel ID : "+ hotelBean.getHotelID()
-									+ "\nCity : " + hotelBean.getCity()
-									+ "\nHotel Name : " + hotelBean.getHotelName()
-									+ "\nAddress : " + hotelBean.getAddress()
-									+ "\nDescription : " + hotelBean.getDescription()
-									+ "\nAverage Rate per Night : " + hotelBean.getAvgRatePerNight()
-									+ "\nPhone Number 1 : " + hotelBean.getPhoneNumber1()
-									+ "\nPhone Number 2 : " + hotelBean.getPhoneNumber2()
-									+ "\nRating : " + hotelBean.getRating()
-									+ "\nFax : " + hotelBean.getFax());
-			}
-			else{
-				myLogger.error("System Error");
-				throw new BookingException("System Error. Try Again Later.");
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from addHotelDetails()", e);
-			throw new BookingException("Problem in adding data.", e);
-		}
-		return hotelBean.getHotelID();
+		entityManager.persist(hotelBean);
+		myLogger.info("New Entry -> Hotel ID : "+ hotelBean.getHotelID()
+							+ "\nCity : " + hotelBean.getCity()
+							+ "\nHotel Name : " + hotelBean.getHotelName()
+							+ "\nAddress : " + hotelBean.getAddress()
+							+ "\nDescription : " + hotelBean.getDescription()
+							+ "\nAverage Rate per Night : " + hotelBean.getAvgRatePerNight()
+							+ "\nPhone Number 1 : " + hotelBean.getPhoneNumber1()
+							+ "\nPhone Number 2 : " + hotelBean.getPhoneNumber2()
+							+ "\nRating : " + hotelBean.getRating()
+							+ "\nFax : " + hotelBean.getFax());
 	}
 
 	@Override
@@ -262,66 +198,23 @@ public class AdminDao implements IAdminDao {
 	}
 
 	@Override
-	public boolean deleteHotelDetails(int hotelID) throws BookingException {
+	public void deleteHotelDetails(int hotelID) throws BookingException {
+		//TODO Don't remove the column, set inactive
 		myLogger.info("Execution in deleteHotelDetails()");
-		
-		String query = "DELETE FROM hotels WHERE hotel_ID=?";
-		int recsAffected = 0;
-		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			preparedStatement.setInt(1, hotelID);
-						
-			myLogger.info("Query Execution : " + query);
-			recsAffected = preparedStatement.executeUpdate();
-			
-			if(recsAffected > 0){
-				myLogger.info("1 row deleted from hotels."
-						+ "\nHotel ID of deleted row : " + hotelID);
-			}
-			else{
-				myLogger.error("System Error");
-				throw new BookingException("System Error. Try Again Later.");
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from deleteHotelDetails()", e);
-			throw new BookingException("Problem in deleting data.", e);
-		}
-		return true;
+		HotelBean hotelBean = entityManager.find(HotelBean.class, hotelID);
+		entityManager.remove(hotelBean);
+		myLogger.info("1 row deleted from hotels."
+				+ "\nHotel ID of deleted row : " + hotelID);
 	}
 
 	@Override
-	public boolean deleteRoomDetails(int roomID) throws BookingException {
+	public void deleteRoomDetails(int roomID) throws BookingException {
+		//TODO Don't remove the column, set inactive
 		myLogger.info("Execution in deletRoomDetails()");
-		
-		String query = "DELETE FROM roomdetails WHERE room_ID=?";
-		int recsAffected = 0;
-		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			preparedStatement.setInt(1, roomID);
-						
-			myLogger.info("Query Execution : " + query);
-			recsAffected = preparedStatement.executeUpdate();
-			
-			if(recsAffected > 0){
-				myLogger.info("1 row deleted from roomdetails."
+		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+		entityManager.remove(roomBean);
+		myLogger.info("1 row deleted from roomdetails."
 						+ "\nRoom ID of deleted row : " + roomID);
-			}
-			else{
-				myLogger.error("System Error");
-				throw new BookingException("System Error. Try Again Later.");
-				
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from deleteRoomDetails()", e);
-			throw new BookingException("Problem in deleting data.", e);
-		}
-		return true;
 	}
 
 	@Override

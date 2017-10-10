@@ -1,28 +1,27 @@
-package com.capgemini.hotelbooking.service;
+package com.capgemini.hotelbooking.services;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
-import com.capgemini.hotelbooking.bean.HotelBean;
-import com.capgemini.hotelbooking.bean.RoomBean;
-import com.capgemini.hotelbooking.bean.UserBean;
-import com.capgemini.hotelbooking.dao.CommonDao;
-import com.capgemini.hotelbooking.dao.ICommonDao;
-import com.capgemini.hotelbooking.exception.BookingException;
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.daos.ICommonDao;
+import com.capgemini.hotelbooking.exceptions.BookingException;
 
+@Service
 public class CommonService implements ICommonService {
+	@Resource
 	private ICommonDao dao;
 	
 	private static String mobileNumberPattern = "[7-9][0-9]{9}";
 	private static String emailPattern = "[A-Z a-z]*[@][A-Z a-z]*[.](com|org|in|co.in)";
 	
 	static Logger myLogger = Logger.getLogger("myLogger");
-	
-	public CommonService() throws BookingException {
-		myLogger.info("Service: Dao injected.");
-		dao = new CommonDao();
-	}
 	
 	public static boolean validateMobileNumber(String mobileNumber){
 		boolean flag = false;
@@ -59,8 +58,8 @@ public class CommonService implements ICommonService {
 	}
 
 	@Override
-	public int registerUser(UserBean userBean) throws BookingException {
-		return dao.registerUser(userBean);
+	public void registerUser(UserBean userBean) throws BookingException {
+		dao.registerUser(userBean);
 	}
 
 	@Override

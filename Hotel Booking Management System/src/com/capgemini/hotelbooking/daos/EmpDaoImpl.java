@@ -47,6 +47,6 @@ public class EmpDaoImpl implements EmpDao{
 	@Override
 	public void updateEmpName(int empNo, String empNm){
 		BookingBean emp = entityManager.find(BookingBean.class, empNo);
-		emp.setEmpNm(empNm);
+		emp.setBookingID(empNo);
 	}
 }

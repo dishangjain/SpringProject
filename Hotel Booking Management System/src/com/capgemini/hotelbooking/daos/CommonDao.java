@@ -10,37 +10,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import com.capgemini.hotelbooking.bean.HotelBean;
-import com.capgemini.hotelbooking.bean.RoomBean;
-import com.capgemini.hotelbooking.bean.UserBean;
-import com.capgemini.hotelbooking.exception.BookingException;
-import com.capgemini.hotelbooking.util.ConnectionUtil;
+import org.apache.log4j.Logger;
+import org.jboss.security.acl.EntitlementEntry;
+
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+
 
 public class CommonDao implements ICommonDao {
-	private Connection connect;
 	static Logger myLogger = Logger.getLogger("myLogger");
-	
-	private int getUserID(){
-		int userId = 0;
-		String query = "SELECT user_id_seq.NEXTVAL FROM DUAL";
-		try
-		{
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-			myLogger.info("Query Execution : " + query);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if(resultSet.next())
-			{
-				userId = resultSet.getInt(1);
-			}
-		}
-		catch(SQLException e)
-		{
-			myLogger.error("Unable to generate user ID.");
-		}
-		return userId;
-	}
+
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	private String generatePasswordHash(String password) throws BookingException{
 		MessageDigest messageDigest;
@@ -162,48 +148,17 @@ public class CommonDao implements ICommonDao {
 	}
 	
 	@Override
-	public int registerUser(UserBean userBean) throws BookingException {
+	public void registerUser(UserBean userBean) throws BookingException {
 		myLogger.info("Execution in registerUser()");
-		
-		String query = "insert into users(user_id, password, role, user_name, mobile_no, phone, address, email)"
-						+ "values (?, ?, 'customer', ?, ?, ?, ?, ?)";
-		int recsAffected = 0;
-		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			userBean.setUserID(getUserID());
-			preparedStatement.setInt(1, userBean.getUserID());
-			preparedStatement.setString(2, generatePasswordHash(userBean.getPassword()));
-			preparedStatement.setString(3,userBean.getUserName());
-			preparedStatement.setString(4, userBean.getMobileNumber());
-			preparedStatement.setString(5, userBean.getPhoneNumber());
-			preparedStatement.setString(6, userBean.getAddress());
-			preparedStatement.setString(7, userBean.getEmail());
-						
-			myLogger.info("Query Execution : " + query);
-			recsAffected = preparedStatement.executeUpdate();
-			
-			if(recsAffected > 0){
-				myLogger.info("New Entry -> User ID : "+ userBean.getUserID()
-									+ "\nPassword Hash: " + generatePasswordHash(userBean.getPassword())
-									+ "\nRole : " + userBean.getRole()
-									+ "\nUser Name : " + userBean.getUserName()
-									+ "\nMobile Number : " + userBean.getMobileNumber()
-									+ "\nPhone Number : " + userBean.getPhoneNumber()
-									+ "\nAddress : " + userBean.getAddress()
-									+ "\nEmail : " + userBean.getEmail());
-			}
-			else{
-				myLogger.error("System Error");
-				throw new BookingException("System Error. Try Again Later.");
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from registerUser()", e);
-			throw new BookingException("Problem in registering user.", e);
-		}
-		return userBean.getUserID();
+		entityManager.persist(userBean);
+		myLogger.info("New Entry -> User ID : "+ userBean.getUserID()
+							+ "\nPassword Hash: " + generatePasswordHash(userBean.getPassword())
+							+ "\nRole : " + userBean.getRole()
+							+ "\nUser Name : " + userBean.getUserName()
+							+ "\nMobile Number : " + userBean.getMobileNumber()
+							+ "\nPhone Number : " + userBean.getPhoneNumber()
+							+ "\nAddress : " + userBean.getAddress()
+							+ "\nEmail : " + userBean.getEmail());
 	}
 
 	@Override
