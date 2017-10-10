@@ -1,6 +1,6 @@
 package com.capgemini.hotelbooking.services;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -185,15 +185,15 @@ public class AdminService implements IAdminService{
 	}
 
 	@Override
-	public int updateHotelDetails(int hotelID, String attributeName,
+	public void updateHotelDetails(int hotelID, int attributeOption,
 			String attributeValue) throws BookingException {
-		return dao.updateHotelDetails(hotelID, attributeName, attributeValue);
+		dao.updateHotelDetails(hotelID, attributeOption, attributeValue);
 	}
 
 	@Override
-	public int updateRoomDetails(int roomID, String attributeName,
+	public void updateRoomDetails(int roomID, int attributeOption,
 			String attributeValue) throws BookingException {
-		return dao.updateRoomDetails(roomID, attributeName, attributeValue);
+		dao.updateRoomDetails(roomID, attributeOption, attributeValue);
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public class AdminService implements IAdminService{
 	}
 
 	@Override
-	public List<BookingBean> viewBookingsOfDate(LocalDate date) throws BookingException {
+	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException {
 		return dao.viewBookingsOfDate(date);
 	}
 

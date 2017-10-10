@@ -1,0 +1,223 @@
+package com.capgemini.hotelbooking.daos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.log4j.Logger;
+
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+
+public class AdminDao implements IAdminDao {
+	static Logger myLogger = Logger.getLogger("myLogger");
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	@Override
+	public void addRoomDetails(RoomBean roomBean) throws BookingException {
+		myLogger.info("Execution in addRoomDetails()");
+		entityManager.persist(roomBean);
+		myLogger.info("New Entry -> Room ID : "+ roomBean.getRoomID()
+							+ "\nHotel ID : " + roomBean.getHotelID()
+							+ "\nRoom Number: " + roomBean.getRoomNumber()
+							+ "\nRoom Type : " + roomBean.getRoomType()
+							+ "\nPer Night Rate : " + roomBean.getPerNightRate()
+							+ "\nAvailability : " + roomBean.isAvailable()
+							+ "\nPhoto : " + roomBean.getPhoto());
+	}
+
+	@Override
+	public void addHotelDetails(HotelBean hotelBean) throws BookingException {
+		myLogger.info("Execution in addHotelDetails()");
+		entityManager.persist(hotelBean);
+		myLogger.info("New Entry -> Hotel ID : "+ hotelBean.getHotelID()
+							+ "\nCity : " + hotelBean.getCity()
+							+ "\nHotel Name : " + hotelBean.getHotelName()
+							+ "\nAddress : " + hotelBean.getAddress()
+							+ "\nDescription : " + hotelBean.getDescription()
+							+ "\nAverage Rate per Night : " + hotelBean.getAvgRatePerNight()
+							+ "\nPhone Number 1 : " + hotelBean.getPhoneNumber1()
+							+ "\nPhone Number 2 : " + hotelBean.getPhoneNumber2()
+							+ "\nRating : " + hotelBean.getRating()
+							+ "\nFax : " + hotelBean.getFax());
+	}
+
+	@Override
+	public void updateHotelDetails(int hotelID, int attributeOption, String attributeValue) 
+			throws BookingException {
+		myLogger.info("Execution in updateHotelDetails()");
+		HotelBean hotelBean = entityManager.find(HotelBean.class, hotelID);
+		String attributeName = null;
+		
+		switch (attributeOption) {
+			case 1:
+				hotelBean.setCity(attributeValue);
+				attributeName = "City";
+				break;
+			case 2:
+				hotelBean.setHotelName(attributeValue);
+				attributeName = "Hotel Name";
+				break;
+			case 3:
+				hotelBean.setAddress(attributeValue);
+				attributeName = "Address";
+				break;
+			case 4:
+				hotelBean.setDescription(attributeValue);
+				attributeName = "Description";
+				break;
+			case 5:
+				hotelBean.setAvgRatePerNight(Float.parseFloat(attributeValue));
+				attributeName = "Average cost/night";
+				break;
+			case 6:
+				hotelBean.setPhoneNumber1(attributeValue);
+				attributeName = "Phone Number 1";
+				break;
+			case 7:
+				hotelBean.setPhoneNumber2(attributeValue);
+				attributeName = "Phone Number 2";
+				break;
+			case 8:
+				hotelBean.setRating(attributeValue);
+				attributeName = "Rating";
+				break;
+			case 9:
+				hotelBean.setEmail(attributeValue);
+				attributeName = "Email";
+				break;
+			case 10:
+				hotelBean.setFax(attributeValue);
+				attributeName = "Fax";
+				break;
+		}
+		myLogger.info("Hotel Table Updated."
+					+ "\nHotel ID : " + hotelID
+					+ "\nColumn Name : " + attributeName
+					+ "Column Value : " + attributeValue);
+	}
+
+	@Override
+	public void updateRoomDetails(int roomID, int attributeOption,
+			String attributeValue) throws BookingException {
+		myLogger.info("Execution in updateRoomDetails()");
+		
+		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+		String attributeName = null;
+		
+		switch (attributeOption) {
+			case 1:
+				roomBean.setRoomNumber(attributeValue);
+				attributeName = "Room Number";
+				break;
+			case 2:
+				roomBean.setRoomType(attributeValue);
+				attributeName = "Room Type";
+				break;
+			case 3:
+				roomBean.setPerNightRate(Float.parseFloat(attributeValue));
+				attributeName = "Cost/Night";
+				break;
+			case 4:
+				roomBean.setPhoto(attributeValue);
+				attributeName = "Photo";
+				break;
+		}
+		
+		myLogger.info("Room Table Updated."
+				+ "\nRoom ID : " + roomID
+				+ "\nColumn Name : " + attributeName
+				+ "Column Value : " + attributeValue);
+	}
+
+	@Override
+	public List<BookingBean> viewBookingsOfHotel(int hotelID) throws BookingException {
+		List<BookingBean> bookingList = new ArrayList<BookingBean>();
+		myLogger.info("Execution in viewBookingsOfHotel()");
+		String query = "SELECT * FROM BookingBean b WHERE b.roomID in (SELECT r.roomID from RoomBean r "
+				+ "WHERE r.hotelID = :hotelID)";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
+		qry.setParameter("hotelID", hotelID);
+		bookingList = qry.getResultList();
+		return bookingList;
+	}
+
+	@Override
+	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException {
+		List<BookingBean> bookingList = new ArrayList<BookingBean>();
+		myLogger.info("Execution in getBookingsOfDate()");
+		String query = "SELECT * FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
+		qry.setParameter("date", date);
+		bookingList = qry.getResultList();
+		return bookingList;
+	}
+
+	@Override
+	public void deleteHotelDetails(int hotelID) throws BookingException {
+		myLogger.info("Execution in deleteHotelDetails()");
+		HotelBean hotelBean = entityManager.find(HotelBean.class, hotelID);
+		hotelBean.setStatus("inactive");
+		myLogger.info("1 row deleted from hotels."
+				+ "\nHotel ID of deleted row : " + hotelID);
+	}
+
+	@Override
+	public void deleteRoomDetails(int roomID) throws BookingException {
+		myLogger.info("Execution in deletRoomDetails()");
+		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+		roomBean.setStatus("inactive");
+		myLogger.info("1 row deleted from roomdetails."
+						+ "\nRoom ID of deleted row : " + roomID);
+	}
+
+	@Override
+	public List<UserBean> viewGuestList(int hotelID) throws BookingException {
+		List<UserBean> bookingList = new ArrayList<UserBean>();
+		myLogger.info("Execution in viewGuestList()");
+		String query = "SELECT * FROM users u WHERE u.user_id in (SELECT b.user_id FROM bookingdetails b "
+				+ "WHERE b.room_id in (SELECT r.room_id FROM roomdetails r WHERE r.hotel_id = ?))";
+		ResultSet resultSet = null;
+		
+		try(
+			PreparedStatement preparedStatement = connect.prepareStatement(query);
+		){
+			preparedStatement.setInt(1, hotelID);
+						
+			myLogger.info("Query Execution : " + query);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+				String userName = resultSet.getString("USER_NAME");
+				int userID = resultSet.getInt("USER_ID");
+				String role = resultSet.getString("ROLE");
+				String password = "";
+				String mobileNumber = resultSet.getString("MOBILE_NO");
+				String address = resultSet.getString("ADDRESS");
+				String email = resultSet.getString("EMAIL");
+				String phoneNumber = resultSet.getString("PHONE");
+				
+				bookingList.add(new UserBean(userID, password, role, userName, mobileNumber, address, email, phoneNumber));
+			}
+			
+		} catch (SQLException e) {
+			myLogger.error("Exception from viewGuestList()", e);
+			throw new BookingException("Problem in retrieving data.", e);
+		}
+		return bookingList;
+	}
+}
