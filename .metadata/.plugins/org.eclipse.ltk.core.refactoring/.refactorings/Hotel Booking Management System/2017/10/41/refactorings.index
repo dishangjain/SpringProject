@@ -13,3 +13,5 @@
 1507612806910	Rename type 'BookingBean'
 1507612827971	Rename type 'Employee'
 1507613088776	Delete element
+1507618635878	Rename resource 'EmpSpringMVC.xml'
+1507618693503	Rename resource 'EmpManagement.xml'
