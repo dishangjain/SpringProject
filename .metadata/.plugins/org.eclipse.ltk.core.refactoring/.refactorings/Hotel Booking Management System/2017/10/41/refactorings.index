@@ -4,3 +4,12 @@
 1507611058160	Rename package 'com.cg.hr.exceptions'
 1507611070549	Rename package 'com.cg.hr.services'
 1507611084580	Rename package 'com.cg.hr.tests'
+1507611330953	Rename type 'EmpCrudController'
+1507611567765	Rename package 'com.capgemini.hotelbooking.dtos'
+1507611882678	Delete element
+1507612206888	Rename type 'BookingException'
+1507612225568	Rename type 'EmployeeException'
+1507612400274	Delete element
+1507612806910	Rename type 'BookingBean'
+1507612827971	Rename type 'Employee'
+1507613088776	Delete element

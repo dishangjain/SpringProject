@@ -1,0 +1,22 @@
+package com.capgemini.hotelbooking.dao;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import com.capgemini.hotelbooking.bean.BookingBean;
+import com.capgemini.hotelbooking.bean.HotelBean;
+import com.capgemini.hotelbooking.bean.RoomBean;
+import com.capgemini.hotelbooking.bean.UserBean;
+import com.capgemini.hotelbooking.exception.BookingException;
+
+public interface IAdminDao {
+	public int addHotelDetails(HotelBean hotelBean) throws EmployeeException;
+	public int updateHotelDetails(int hotelID,String attributeName,String attributeValue) throws EmployeeException;
+	public boolean deleteHotelDetails(int hotelID) throws EmployeeException;
+	public int addRoomDetails(RoomBean roomBean) throws EmployeeException;
+	public int updateRoomDetails(int roomID,String attributeName,String attributeValue) throws EmployeeException;
+	public boolean deleteRoomDetails(int roomID) throws EmployeeException;
+	public List<BookingBean> viewBookingsOfHotel(int hotelID) throws EmployeeException;
+	public List<BookingBean> viewBookingsOfDate(LocalDate date) throws EmployeeException;
+	List<UserBean> viewGuestList(int hotelID) throws EmployeeException;
+}

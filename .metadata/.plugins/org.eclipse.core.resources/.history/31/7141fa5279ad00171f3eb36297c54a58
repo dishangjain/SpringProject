@@ -1,0 +1,14 @@
+package com.capgemini.hotelbooking.dao;
+
+import java.util.List;
+
+import com.capgemini.hotelbooking.bean.BookingBean;
+import com.capgemini.hotelbooking.bean.RoomBean;
+import com.capgemini.hotelbooking.exception.BookingException;
+
+public interface ICustomerDao{
+	public int bookRoom(BookingBean bookingBean) throws EmployeeException;
+	public List<List<Object>> viewBookingStatus(int bookingId,int userId) throws EmployeeException;
+	public List<RoomBean> searchAvailableRooms(String city) throws EmployeeException;
+	public List<Integer> getBookingIDs(int userId) throws EmployeeException;
+}

@@ -7,9 +7,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.capgemini.hotelbooking.beans.BookingBean;
 import com.capgemini.hotelbooking.daos.EmpDao;
-import com.capgemini.hotelbooking.dtos.Employee;
-import com.capgemini.hotelbooking.exceptions.EmployeeException;
+import com.capgemini.hotelbooking.exceptions.BookingException;
 
 @Service
 @Transactional
@@ -18,27 +18,27 @@ public class EmpServiceImpl implements EmpService {
 	private EmpDao dao;
 	
 	@Override
-	public List<Employee> getEmpList() throws EmployeeException {
+	public List<BookingBean> getEmpList() throws BookingException {
 		return dao.getEmpList();
 	}
 
 	@Override
-	public Employee getEmpOnId(int empNo) throws EmployeeException {
+	public BookingBean getEmpOnId(int empNo) throws BookingException {
 		return dao.getEmpOnId(empNo);
 	}
 
 	@Override
-	public void insertNewEmp(Employee emp) throws EmployeeException {
+	public void insertNewEmp(BookingBean emp) throws BookingException {
 		dao.insertNewEmp(emp);
 	}
 
 	@Override
-	public void updateEmpName(int empNo, String empNm) throws EmployeeException {
+	public void updateEmpName(int empNo, String empNm) throws BookingException {
 		dao.updateEmpName(empNo, empNm);
 	}
 
 	@Override
-	public List<Integer> getEmpNoList() throws EmployeeException {
+	public List<Integer> getEmpNoList() throws BookingException {
 		return dao.getEmpNoList();
 	}
 
