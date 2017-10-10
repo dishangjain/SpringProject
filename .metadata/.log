@@ -24,3 +24,18 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.jboss.tools.stacks.core 2 0 2017-10-10 00:37:22.227
+!MESSAGE Stacks from https://raw.githubusercontent.com/jboss-developer/jboss-stacks/1.0.0.Final/stacks.yaml can not be read, using client mechanism instead
+
+!ENTRY org.jboss.tools.stacks.core 2 0 2017-10-10 00:37:22.242
+!MESSAGE BarrierProgressWaitJob - loading Stacks Client values
+
+!ENTRY org.jboss.tools.stacks.core 2 0 2017-10-10 00:37:24.430
+!MESSAGE It was not possible to contact the repository at https://raw.githubusercontent.com/jboss-developer/jboss-stacks/1.0.0.Final/stacks.yaml . Cause Connection to https://raw.githubusercontent.com refused
+
+!ENTRY org.jboss.tools.stacks.core 2 0 2017-10-10 00:37:24.430
+!MESSAGE Falling back to cache!
+
+!ENTRY org.jboss.tools.stacks.core 2 0 2017-10-10 00:37:24.430
+!MESSAGE Cache empty. Falling back to embed file

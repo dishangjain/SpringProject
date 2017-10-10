@@ -1,0 +1,25 @@
+package com.capgemini.hotelbooking.tests;
+
+import java.util.List;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.capgemini.hotelbooking.dtos.Employee;
+import com.capgemini.hotelbooking.exceptions.EmployeeException;
+import com.capgemini.hotelbooking.services.EmpService;
+
+public class TestLayers {
+	public static void main(String[] args) {
+		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("EmpManagement.xml");
+		
+		EmpService service = ctx.getBean(EmpService.class);
+		try {
+			List<Employee> empList =  service.getEmpList();
+			System.out.println(empList);
+			ctx.close();
+		} catch (EmployeeException e) {
+			e.printStackTrace();
+		}
+	}
+}

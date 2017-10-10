@@ -1,0 +1,14 @@
+package com.cg.hr.daos;
+
+import java.util.List;
+
+import com.cg.hr.dtos.Employee;
+import com.cg.hr.exceptions.EmployeeException;
+
+public interface EmpDao {
+	public List<Employee> getEmpList() throws EmployeeException;
+	public Employee getEmpOnId(int empNo) throws EmployeeException;
+	public void insertNewEmp(Employee emp) throws EmployeeException;
+	public void updateEmpName(int empNo, String empNm) throws EmployeeException;
+	public List<Integer> getEmpNoList() throws EmployeeException;
+}

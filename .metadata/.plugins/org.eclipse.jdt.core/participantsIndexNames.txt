@@ -1,0 +1,7 @@
+INDEX VERSION 1.127
+P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1739157746.index
+\SpringMVC050Validation\src
+P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1677543400.index
+\SpringMVC040_NgRest\src
+P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1058931393.index
+\SpringMVC030CRUD\src

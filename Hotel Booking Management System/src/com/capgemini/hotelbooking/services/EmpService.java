@@ -1,0 +1,14 @@
+package com.capgemini.hotelbooking.services;
+
+import java.util.List;
+
+import com.capgemini.hotelbooking.dtos.Employee;
+import com.capgemini.hotelbooking.exceptions.EmployeeException;
+
+public interface EmpService {
+	public List<Employee> getEmpList() throws EmployeeException;
+	public Employee getEmpOnId(int empNo) throws EmployeeException;
+	public void insertNewEmp(Employee emp) throws EmployeeException;
+	public void updateEmpName(int empNo, String empNm) throws EmployeeException;
+	public List<Integer> getEmpNoList() throws EmployeeException;
+}
