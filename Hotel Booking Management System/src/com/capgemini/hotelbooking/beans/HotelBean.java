@@ -1,5 +1,14 @@
 package com.capgemini.hotelbooking.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="BOOKINGDETAILS")
 public class HotelBean {
 	private int hotelID;
 	private String city;
@@ -12,6 +21,7 @@ public class HotelBean {
 	private String rating;
 	private String email;
 	private String fax;
+	private String status;
 	
 	public HotelBean() {
 		super();
@@ -34,54 +44,70 @@ public class HotelBean {
 		this.email = email;
 		this.fax = fax;
 	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="hotel_id_seq")
+	@Column(name="HOTEL_ID")
 	public int getHotelID() {
 		return hotelID;
 	}
 	public void setHotelID(int hotelID) {
 		this.hotelID = hotelID;
 	}
+	
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	@Column(name="HOTEL_NAME")
 	public String getHotelName() {
 		return hotelName;
 	}
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
 	}
+	
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Column(name="AVG_RATE_PER_NIGHT")
 	public float getAvgRatePerNight() {
 		return avgRatePerNight;
 	}
 	public void setAvgRatePerNight(float avgRatePerNight) {
 		this.avgRatePerNight = avgRatePerNight;
 	}
+	
+	@Column(name="phone_no1")
 	public String getPhoneNumber1() {
 		return phoneNumber1;
 	}
 	public void setPhoneNumber1(String phoneNumber1) {
 		this.phoneNumber1 = phoneNumber1;
 	}
+	
+	@Column(name="phone_no2")
 	public String getPhoneNumber2() {
 		return phoneNumber2;
 	}
 	public void setPhoneNumber2(String phoneNumber2) {
 		this.phoneNumber2 = phoneNumber2;
 	}
+	
 	public String getRating() {
 		return rating;
 	}
@@ -99,6 +125,14 @@ public class HotelBean {
 	}
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	@Override

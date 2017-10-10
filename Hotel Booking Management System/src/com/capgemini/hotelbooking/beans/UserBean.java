@@ -1,5 +1,10 @@
 package com.capgemini.hotelbooking.beans;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class UserBean {
 	private int userID;
 	private String password;
@@ -9,6 +14,7 @@ public class UserBean {
 	private String address;
 	private String email;
 	private String phoneNumber;
+	private String status;
 	
 	public UserBean() {
 		super();
@@ -28,6 +34,9 @@ public class UserBean {
 		this.phoneNumber = phoneNumber;
 	}
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_id_seq")
+	@Column(name="USER_ID")
 	public int getUserID() {
 		return userID;
 	}
@@ -46,35 +55,51 @@ public class UserBean {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	@Column(name="USER_NAME")
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
+	@Column(name="MOBILE_NO")
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
+	
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Column(name="phone")
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	@Override
