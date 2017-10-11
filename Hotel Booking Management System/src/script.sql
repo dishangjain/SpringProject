@@ -64,4 +64,4 @@ create sequence user_id_seq;
 create sequence room_id_seq;
 
 insert into users values(0,'36bcbb801f5052739af822c6ea51434','admin','system',
-'7721849377','9324352142','Capgemini Pune','jaindishang24@gmail.com');
+'7721849377','9324352142','Capgemini Pune','jaindishang24@gmail.com','active');

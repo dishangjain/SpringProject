@@ -1,0 +1,92 @@
+package com.capgemini.hotelbooking.controllers;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+import com.capgemini.hotelbooking.services.CommonService;
+import com.capgemini.hotelbooking.services.EmpService;
+
+@Controller
+public class HotelBookingController {
+	@Resource
+	private CommonService service;
+	
+	@RequestMapping("/getHomePage.do")
+	public ModelAndView getHomePage() throws BookingException{
+		System.out.println("In getHomePage\n");
+		System.out.println(service.login("system", "sys"));
+		return null;
+	}
+	
+	/*@RequestMapping("/getEmpList.do")
+	public ModelAndView getEmpList() throws BookingException{
+		List<BookingBean> empList = service.getEmpList();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("empList",empList);
+		modelAndView.addObject("pageHead", "Employee List");
+		
+		modelAndView.setViewName("EmpList");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/getEmpDetails.do")
+	public ModelAndView getEmpDetails(@RequestParam("empNo") int empNo) throws BookingException{
+		BookingBean emp = service.getEmpOnId(empNo);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("emp", emp);
+		modelAndView.addObject("pageHead", "Employee Details");
+		
+		modelAndView.setViewName("EmpDetails");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/getEntryPage.do")
+	public ModelAndView getEntryPage(){
+		ModelAndView modelAndView = new ModelAndView("EntryPage");
+		BookingBean emp = new BookingBean();
+		modelAndView.addObject("employee", emp);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/submitEmpDetails.do",method=RequestMethod.POST)
+	public String submitEmpDetails(@ModelAttribute("employee") BookingBean emp, Model model) throws BookingException{
+		service.insertNewEmp(emp);
+		
+		model.addAttribute("emp", emp);
+		model.addAttribute("pageHead", "Successful joining of Employee");
+		
+		return "SuccEmpJoining";
+	}
+	
+	@RequestMapping("/getUpdateNamePage.do")
+	public ModelAndView getUpdatePage() throws BookingException{
+		ModelAndView modelAndView = new ModelAndView("UpdateNamePage");
+		List<Integer> idList = service.getEmpNoList();
+		
+		modelAndView.addObject("idList", idList);
+		modelAndView.addObject("pageHead", "Update name of an employee");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/submitNewEmpName.do")
+	public String submitNewEmpName(@RequestParam("empNo") int empNo,@RequestParam("newName") String empName, Model model) throws BookingException{
+		service.updateEmpName(empNo, empName);
+		BookingBean emp = service.getEmpOnId(empNo);
+		model.addAttribute("emp", emp);
+		model.addAttribute("pageHead", "Successfully updated name");
+		
+		return "SuccEmpUpdate";
+	}*/
+}

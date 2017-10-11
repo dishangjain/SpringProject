@@ -1,33 +1,27 @@
 package com.capgemini.hotelbooking.controllers;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.capgemini.hotelbooking.beans.BookingBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
-import com.capgemini.hotelbooking.services.EmpService;
+import com.capgemini.hotelbooking.services.CommonService;
 
 @Controller
 public class HotelBookingController {
 	@Resource
-	private EmpService service;
+	private CommonService service;
 	
 	@RequestMapping("/getHomePage.do")
-	public ModelAndView getHomePage(){
-		ModelAndView modelAndView = new ModelAndView("HomePage");
-		return modelAndView;
+	public ModelAndView getHomePage() throws BookingException{
+		System.out.println("In getHomePage");
+		System.out.println(service.login("system", "sys"));
+		return null;
 	}
 	
-	@RequestMapping("/getEmpList.do")
+	/*@RequestMapping("/getEmpList.do")
 	public ModelAndView getEmpList() throws BookingException{
 		List<BookingBean> empList = service.getEmpList();
 		ModelAndView modelAndView = new ModelAndView();
@@ -86,5 +80,5 @@ public class HotelBookingController {
 		model.addAttribute("pageHead", "Successfully updated name");
 		
 		return "SuccEmpUpdate";
-	}
+	}*/
 }

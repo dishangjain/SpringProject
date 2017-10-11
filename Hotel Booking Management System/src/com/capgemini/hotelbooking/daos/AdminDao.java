@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import com.capgemini.hotelbooking.beans.BookingBean;
 import com.capgemini.hotelbooking.beans.HotelBean;
@@ -16,6 +17,7 @@ import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.beans.UserBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
 
+@Repository
 public class AdminDao implements IAdminDao {
 	static Logger myLogger = Logger.getLogger("myLogger");
 	
@@ -143,7 +145,7 @@ public class AdminDao implements IAdminDao {
 	public List<BookingBean> viewBookingsOfHotel(int hotelID) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in viewBookingsOfHotel()");
-		String query = "SELECT * FROM BookingBean b WHERE b.roomID in (SELECT r.roomID from RoomBean r "
+		String query = "SELECT b FROM BookingBean b WHERE b.roomID in (SELECT r.roomID from RoomBean r "
 				+ "WHERE r.hotelID = :hotelID)";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("hotelID", hotelID);
@@ -155,7 +157,7 @@ public class AdminDao implements IAdminDao {
 	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in getBookingsOfDate()");
-		String query = "SELECT * FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo";
+		String query = "SELECT b FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("date", date);
 		bookingList = qry.getResultList();
@@ -184,7 +186,7 @@ public class AdminDao implements IAdminDao {
 	public List<UserBean> viewGuestList(int hotelID) throws BookingException {
 		List<UserBean> guestList = new ArrayList<UserBean>();
 		myLogger.info("Execution in viewGuestList()");
-		String query = "SELECT * FROM UserBean u WHERE u.userID in (SELECT b.userID FROM BookingBean b "
+		String query = "SELECT u FROM UserBean u WHERE u.userID in (SELECT b.userID FROM BookingBean b "
 				+ "WHERE b.roomID in (SELECT r.roomID FROM RoomBean r WHERE r.hotelID = :hotelID))";
 		TypedQuery<UserBean> qry = entityManager.createQuery(query, UserBean.class);
 		guestList = qry.getResultList();

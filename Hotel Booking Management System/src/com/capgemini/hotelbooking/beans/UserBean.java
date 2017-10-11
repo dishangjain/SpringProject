@@ -1,10 +1,15 @@
 package com.capgemini.hotelbooking.beans;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="USERS")
 public class UserBean {
 	private int userID;
 	private String password;
@@ -35,6 +40,7 @@ public class UserBean {
 	}
 	
 	@Id
+	@SequenceGenerator(name="user_id_seq",sequenceName="user_id_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_id_seq")
 	@Column(name="USER_ID")
 	public int getUserID() {
@@ -106,6 +112,6 @@ public class UserBean {
 	public String toString() {
 		return "User(User ID=" + userID + ", Username=" + userName
 				+ ", Mobile number=" + mobileNumber + ", Address=" + address
-				+ ", Email=" + email + ", Phone number=" + phoneNumber + ")\n";
+				+ ", Email=" + email + ", Phone number=" + phoneNumber + ", User Status=" + status + ")\n";
 	}
 }

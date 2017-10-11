@@ -39,5 +39,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<!-- This is required to handle transactions via Annotations like @Transactional -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<context:component-scan base-package="com.capgemini.hotelbooking.controllers"/>
       
 </beans>

@@ -1,11 +1,15 @@
 package com.capgemini.hotelbooking.beans;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-
+@Entity
+@Table(name="ROOMDETAILS")
 public class RoomBean {
 	
 	private int hotelID;
@@ -13,7 +17,7 @@ public class RoomBean {
 	private String roomNumber;
 	private String roomType;
 	private float perNightRate;
-	private boolean available;
+	private char available;
 	private String photo;
 	private String status;
 	
@@ -22,7 +26,7 @@ public class RoomBean {
 	}
 	
 	public RoomBean(int hotelID, int roomID, String roomNumber,
-			String roomType, float perNightRate, boolean availability,
+			String roomType, float perNightRate, char availability,
 			String photo) {
 		super();
 		this.hotelID = hotelID;
@@ -43,6 +47,7 @@ public class RoomBean {
 	}
 	
 	@Id
+	@SequenceGenerator(name="room_id_seq",sequenceName="room_id_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="room_id_seq")
 	@Column(name="ROOM_ID")
 	public int getRoomID() {
@@ -77,10 +82,10 @@ public class RoomBean {
 	}
 	
 	@Column(name="availability")
-	public boolean isAvailable() {
+	public char isAvailable() {
 		return available;
 	}
-	public void setAvailable(boolean availability) {
+	public void setAvailable(char availability) {
 		this.available = availability;
 	}
 	
@@ -102,6 +107,6 @@ public class RoomBean {
 	@Override
 	public String toString() {
 		return "Room(Hotel ID=" + hotelID + ", Room ID=" + roomID + ", Room number=" + roomNumber + ", Room type=" + roomType
-				+ ", rate/night=" + perNightRate + ", availability=" + available + ")\n";
+				+ ", rate/night=" + perNightRate + ", availability=" + available + ", Room Status=" + status + ")\n";
 	}
 }

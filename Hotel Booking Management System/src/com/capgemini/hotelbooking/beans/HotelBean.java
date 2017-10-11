@@ -5,10 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BOOKINGDETAILS")
+@Table(name="HOTELS")
 public class HotelBean {
 	private int hotelID;
 	private String city;
@@ -46,6 +47,7 @@ public class HotelBean {
 	}
 	
 	@Id
+	@SequenceGenerator(name="hotel_id_seq",sequenceName="hotel_id_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="hotel_id_seq")
 	@Column(name="HOTEL_ID")
 	public int getHotelID() {
@@ -142,7 +144,7 @@ public class HotelBean {
 				+ ", Description=" + description + ", Average cost of a room="
 				+ avgRatePerNight + ", Phone number 1=" + phoneNumber1
 				+ ", Phone number 2=" + phoneNumber2 + ", Rating=" + rating
-				+ ", Email=" + email + ", Fax=" + fax + ")\n";
+				+ ", Email=" + email + ", Fax=" + fax + ", Affliation Status=" + status + ")\n";
 	}
 	
 }

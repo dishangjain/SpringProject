@@ -13,48 +13,27 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import com.capgemini.hotelbooking.beans.BookingBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
 
+@Repository
 public class CustomerDao implements ICustomerDao {
 	static Logger myLogger = Logger.getLogger("myLogger");
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	private int getBookingID(){
-		int bookingId = 0;
-		String query = "SELECT booking_id_seq.NEXTVAL FROM DUAL";
-		try
-		{
-			PreparedStatement pstmt= connect.prepareStatement(query);
-			myLogger.info("Query Execution : " + query);
-			ResultSet resultSet = pstmt.executeQuery();
-			if(resultSet.next())
-			{
-				bookingId = resultSet.getInt(1);
-			}
-		}
-		catch(SQLException e)
-		{
-			myLogger.error("Unable to generate booking ID.");
-		}
-		return bookingId;
-	}
-	
 	private void updateAvailabililty(int roomID){
-		String query= "UPDATE ROOMDETAILS SET AVAILABILITY='F' where room_id=? ";
-		try(PreparedStatement preparedStatement = connect.prepareStatement(query);) {
-			preparedStatement.setInt(1, roomID);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			myLogger.error("Unable to update availability of room");
-		}
-		
+		myLogger.info("Execution in updateAvailability()");
+		String query= "UPDATE RoomBean SET b.available='F' where room_id=:roomID ";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		qry.setParameter("hotelID", roomID);
 	}
 
 	@Override
@@ -78,8 +57,13 @@ public class CustomerDao implements ICustomerDao {
 		List<Object> bookingStatus = new ArrayList<Object>();
 		myLogger.info("Execution in viewBookingStatus()");
 		
-		String query = "SELECT r.room_no,b.booking_id,b.booked_from,b.booked_to FROM bookingdetails b,"
-				+ "roomdetails r WHERE b.room_id=r.room_id AND b.booking_id = ? AND b.user_id = ? ";
+		String query = "SELECT r.roomNumber,b.bookingID,b.bookedFrom,b.bookedTo FROM BookingBean b,"
+				+ "RoomBean r WHERE b.roomID=r.roomID AND b.bookingID = :bookingId AND b.userID = :userId ";
+		TypedQuery<List<Object>> qry = entityManager.createQuery(query, ArrayList<String>.class);
+		qry.setParameter("bookingId", bookingId);
+		qry.setParameter("userId", userId);
+		bookingList = qry.getResultList();
+		return bookingList;
 		ResultSet resultSet = null;
 		
 		try(

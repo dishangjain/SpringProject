@@ -2,26 +2,22 @@ package com.capgemini.hotelbooking.daos;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
-import org.jboss.security.acl.EntitlementEntry;
+import org.springframework.stereotype.Repository;
 
 import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.beans.UserBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
 
-
+@Repository
 public class CommonDao implements ICommonDao {
 	static Logger myLogger = Logger.getLogger("myLogger");
 
@@ -48,67 +44,33 @@ public class CommonDao implements ICommonDao {
 	@Override
 	public UserBean login(String username, String password)
 			throws BookingException {
+		List<UserBean> userList = new ArrayList<UserBean>();
 		myLogger.info("Execution in Login()");
 		String hashedPassword = generatePasswordHash(password);
-		String query = "SELECT * FROM users WHERE user_name=? AND password=?";
-		ResultSet resultSet = null;
-		UserBean userBean = null;
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, hashedPassword);
-			myLogger.info("Query Execution : " + query);
-			resultSet = preparedStatement.executeQuery(); 
-			
-			while(resultSet.next()){
-				int userId = resultSet.getInt("user_id");
-				String role = resultSet.getString("role");
-				String mobileNumber = resultSet.getString("mobile_no");
-				String phoneNumber = resultSet.getString("phone");
-				String address = resultSet.getString("address");
-				String email = resultSet.getString("email");
-				
-				userBean = new UserBean(userId, hashedPassword, role, username, mobileNumber, address, email, phoneNumber);
-			}
-			
-		} catch (SQLException e) {
-			myLogger.error("Exception from Login()", e);
-			throw new BookingException("Problem in Login in the user.", e);
+		String query = "SELECT u FROM UserBean u WHERE userName = :username AND password = :hashedPassword and status='active'";
+		TypedQuery<UserBean> qry = entityManager.createQuery(query, UserBean.class);
+		qry.setParameter("username", username);
+		qry.setParameter("hashedPassword", hashedPassword);
+		userList = qry.getResultList();
+		if(userList.size() == 1){
+			UserBean validUser = userList.get(0);
+			myLogger.info("User logged in with info : " + validUser.toString());
+			return userList.get(0);
 		}
-		return userBean;
+		else{
+			myLogger.info("User not validated\nUserName : " + username + "\nPassword : " + password);
+			return null;
+		}
 	}
 	
 	@Override
 	public List<HotelBean> retrieveHotels() throws BookingException {
 		List<HotelBean> hotelList = new ArrayList<HotelBean>();
 		myLogger.info("Execution in retrieveHotels()");
-		String query = "SELECT * FROM hotels";
-		try(
-			Statement statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-		){
-			myLogger.info("Query Execution : " + query);
-			while(resultSet.next()){
-				int hotelID = resultSet.getInt("HOTEL_ID");
-				String city = resultSet.getString("CITY");
-				String hotelName = resultSet.getString("HOTEL_NAME");
-				String address = resultSet.getString("ADDRESS");
-				String description = resultSet.getString("DESCRIPTION");
-				float avgRatePerNight = resultSet.getFloat("AVG_RATE_PER_NIGHT");
-				String phoneNumber1 = resultSet.getString("PHONE_NO1");
-				String phoneNumber2 = resultSet.getString("PHONE_NO2");
-				String rating = resultSet.getString("RATING");
-				String email = resultSet.getString("EMAIL");
-				String fax = resultSet.getString("FAX");
-				
-				hotelList.add(new HotelBean(hotelID, city, hotelName, address, description, avgRatePerNight, phoneNumber1, 
-											phoneNumber2, rating, email, fax));
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from retrieveHotels()", e);
-			throw new BookingException("Problem in retrieving data.", e);
-		}
+		String query = "SELECT h FROM HotelBean h where h.status='active'";
+		TypedQuery<HotelBean> qry = entityManager.createQuery(query, HotelBean.class);
+		hotelList = qry.getResultList();
+		myLogger.info("Hotels retrieved are : \n" + hotelList);
 		return hotelList;
 	}
 	
@@ -116,34 +78,10 @@ public class CommonDao implements ICommonDao {
 	public List<RoomBean> retrieveRooms() throws BookingException {
 		List<RoomBean> roomList = new ArrayList<RoomBean>();
 		myLogger.info("Execution in retrieveRooms()");
-		String query = "SELECT * FROM roomdetails";
-		try(
-			Statement statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-		){
-			myLogger.info("Query Execution : " + query);
-			while(resultSet.next()){
-				int hotelID = resultSet.getInt("HOTEL_ID");
-				int roomID = resultSet.getInt("ROOM_ID");
-				String roomNumber = resultSet.getString("ROOM_NO");
-				String roomType = resultSet.getString("ROOM_TYPE");
-				float perNightRate = resultSet.getFloat("PER_NIGHT_RATE");
-				String availabilityString = resultSet.getString("AVAILABILITY");
-				String photo = resultSet.getString("PHOTO");
-				boolean availability = false;
-				if("T".equals(availabilityString)){
-					availability = true;
-				}
-				else{
-					availability = false;
-				}
-				
-				roomList.add(new RoomBean(hotelID, roomID, roomNumber, roomType, perNightRate, availability, photo));
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from retrieveHotels()", e);
-			throw new BookingException("Problem in retrieving data.", e);
-		}
+		String query = "SELECT r FROM RoomBean r WHERE r.status = 'inactive'";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		roomList = qry.getResultList();
+		myLogger.info("Rooms retrieved are : \n" + roomList);
 		return roomList;
 	}
 	
@@ -165,22 +103,10 @@ public class CommonDao implements ICommonDao {
 	public List<String> retrieveUserNames() throws BookingException {
 		List<String> userNameList = new ArrayList<String>();
 		myLogger.info("Execution in retrieveUserNames()");
-		String query = "SELECT user_name FROM users";
-		try(
-			Statement statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-		){
-			myLogger.info("Query Execution : " + query);
-			while(resultSet.next()){
-				String userName = resultSet.getString("user_name");
-				
-				userNameList.add(userName);
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from retrieveHotels()", e);
-			throw new BookingException("Problem in retrieving data.", e);
-		}
+		String query = "SELECT u.userName FROM UserBean u";
+		TypedQuery<String> qry = entityManager.createQuery(query, String.class);
+		userNameList = qry.getResultList();
+		myLogger.info("UserNames retrieved are : \n" + userNameList);
 		return userNameList;
 	}
-
 }
