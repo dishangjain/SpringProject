@@ -150,6 +150,7 @@ public class AdminDao implements IAdminDao {
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("hotelID", hotelID);
 		bookingList = qry.getResultList();
+		myLogger.info("Bookings retrieved for hotel with hotelID = " + hotelID + " are : \n" + bookingList);
 		return bookingList;
 	}
 
@@ -161,6 +162,7 @@ public class AdminDao implements IAdminDao {
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("date", date);
 		bookingList = qry.getResultList();
+		myLogger.info("Bookings retrieved of date = " + date + " are : \n" + bookingList);
 		return bookingList;
 	}
 
@@ -190,6 +192,7 @@ public class AdminDao implements IAdminDao {
 				+ "WHERE b.roomID in (SELECT r.roomID FROM RoomBean r WHERE r.hotelID = :hotelID))";
 		TypedQuery<UserBean> qry = entityManager.createQuery(query, UserBean.class);
 		guestList = qry.getResultList();
+		myLogger.info("Bookings retrieved for hotel with hotelID = " + hotelID + " are : \n" + guestList);
 		return guestList;
 	}
 }

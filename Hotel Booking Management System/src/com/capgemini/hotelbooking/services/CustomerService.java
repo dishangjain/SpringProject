@@ -101,8 +101,8 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public List<List<Object>> viewBookingStatus(int bookingId,int userId) throws BookingException {
-		return dao.viewBookingStatus(bookingId,userId);
+	public List<List<Object>> viewBookingStatus(int userId) throws BookingException {
+		return dao.viewBookingStatus(userId);
 	}
 
 	@Override

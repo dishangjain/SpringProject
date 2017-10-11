@@ -25,9 +25,9 @@ public class UserBean {
 		super();
 	}
 
-	public UserBean(int userID, String password, String role,
-			String userName, String mobileNumber, String address, String email,
-			String phoneNumber) {
+	public UserBean(int userID, String password, String role, String userName,
+			String mobileNumber, String address, String email,
+			String phoneNumber, String status) {
 		super();
 		this.userID = userID;
 		this.password = password;
@@ -37,6 +37,7 @@ public class UserBean {
 		this.address = address;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+		this.status = status;
 	}
 	
 	@Id

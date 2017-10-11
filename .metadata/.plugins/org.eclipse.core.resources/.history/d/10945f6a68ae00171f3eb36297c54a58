@@ -1,0 +1,103 @@
+package com.capgemini.hotelbooking.daos;
+
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+
+@Repository
+public class CustomerDao implements ICustomerDao {
+	static Logger myLogger = Logger.getLogger("myLogger");
+
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	private void updateAvailabililty(int roomID){
+		myLogger.info("Execution in updateAvailability()");
+		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+		roomBean.setAvailable('F');
+		String query= "UPDATE RoomBean r SET r.available='F' where r.roomID=:roomID ";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		
+		qry.setParameter("hotelID", roomID);
+	}
+
+	@Override
+	public void bookRoom(BookingBean bookingBean) throws BookingException {
+		myLogger.info("Execution in bookRoom()");
+		entityManager.persist(bookingBean);
+		myLogger.info("New Entry -> Booking ID : "+ bookingBean.getBookingID()
+					+ "\nRoom ID : " + bookingBean.getRoomID()
+					+ "\nUser ID : " + bookingBean.getUserID()
+					+ "\nBooked From Date : " + bookingBean.getBookedFrom()
+					+ "\nBooked To Date : " + bookingBean.getBookedTo()
+					+ "\nNumber of adults : " + bookingBean.getNumAdults()
+					+ "\nNumber of children : " + bookingBean.getNumChildren()
+					+ "\nAmount : " + bookingBean.getAmount());
+				updateAvailabililty(bookingBean.getRoomID());
+	}
+
+	@Override  
+	public List<List<Object>> viewBookingStatus(int bookingId, int userId) throws BookingException {
+		List<List<Object>> bookingList = new ArrayList<List<Object>>();
+		List<Object> bookingStatus = new ArrayList<Object>();
+		myLogger.info("Execution in viewBookingStatus()");
+		
+		String query = "SELECT r.roomNumber,b.bookingID,b.bookedFrom,b.bookedTo FROM BookingBean b,"
+				+ "RoomBean r WHERE b.roomID=r.roomID AND b.bookingID = :bookingId AND b.userID = :userId ";
+		TypedQuery<List<Object>> qry = entityManager.createQuery(query, ArrayList<String>.class);
+		qry.setParameter("bookingId", bookingId);
+		qry.setParameter("userId", userId);
+		bookingList = qry.getResultList();
+		return bookingList;
+	}
+
+	@Override
+	public List<RoomBean> searchAvailableRooms(String city) throws BookingException {
+		List<RoomBean> roomList = new ArrayList<RoomBean>();
+		myLogger.info("Execution in searchAvailableRooms()");
+		String query = "SELECT r FROM RoomBean r where r.available='T' and hotelID in (select h.hotelID from HotelBean where LOWER(city) = :city) ";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		qry.setParameter("city", city);
+		roomList = qry.getResultList();
+		return roomList;
+	}
+
+	@Override
+	public List<Integer> getBookingIDs(int userId) throws BookingException {
+		List<Integer> bookingIDs = new ArrayList<Integer>();
+		String query = "SELECT BOOKING_ID FROM BOOKINGDETAILS where user_id=?";
+		myLogger.info("Query Execution : " + query);
+		try (PreparedStatement pstmt= connect.prepareStatement(query);)
+		{	
+			pstmt.setInt(1, userId); 
+			ResultSet resultSet = pstmt.executeQuery();
+			while(resultSet.next()){
+				int id = resultSet.getInt("booking_id");
+				bookingIDs.add(id);
+			}
+		} catch (SQLException e) {
+			myLogger.error("Exception from getBookingIDs()", e);
+			throw new BookingException("Problem in retrieving booking ids.", e);
+		}
+		return bookingIDs;
+	}
+
+}

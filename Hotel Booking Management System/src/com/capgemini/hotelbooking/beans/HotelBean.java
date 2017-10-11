@@ -31,7 +31,7 @@ public class HotelBean {
 	public HotelBean(int hotelID, String city, String hotelName,
 			String address, String description, float avgRatePerNight,
 			String phoneNumber1, String phoneNumber2, String rating,
-			String email, String fax) {
+			String email, String fax, String status) {
 		super();
 		this.hotelID = hotelID;
 		this.city = city;
@@ -44,8 +44,9 @@ public class HotelBean {
 		this.rating = rating;
 		this.email = email;
 		this.fax = fax;
+		this.status = status;
 	}
-	
+
 	@Id
 	@SequenceGenerator(name="hotel_id_seq",sequenceName="hotel_id_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="hotel_id_seq")

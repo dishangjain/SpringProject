@@ -1,13 +1,6 @@
 package com.capgemini.hotelbooking.daos;
 
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
 
@@ -31,9 +25,12 @@ public class CustomerDao implements ICustomerDao {
 	
 	private void updateAvailabililty(int roomID){
 		myLogger.info("Execution in updateAvailability()");
-		String query= "UPDATE RoomBean SET b.available='F' where room_id=:roomID ";
-		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
-		qry.setParameter("hotelID", roomID);
+		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+		roomBean.setAvailable('F');
+
+		myLogger.info("Room Table Updated."
+				+ "\nRoom ID : " + roomID
+				+ "availability : " + 'F');
 	}
 
 	@Override
@@ -52,103 +49,48 @@ public class CustomerDao implements ICustomerDao {
 	}
 
 	@Override  
-	public List<List<Object>> viewBookingStatus(int bookingId, int userId) throws BookingException {
-		List<List<Object>> bookingList = new ArrayList<List<Object>>();
-		List<Object> bookingStatus = new ArrayList<Object>();
+	public List<List<Object>> viewBookingStatus(int userId) throws BookingException {
+		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in viewBookingStatus()");
-		
-		String query = "SELECT r.roomNumber,b.bookingID,b.bookedFrom,b.bookedTo FROM BookingBean b,"
-				+ "RoomBean r WHERE b.roomID=r.roomID AND b.bookingID = :bookingId AND b.userID = :userId ";
-		TypedQuery<List<Object>> qry = entityManager.createQuery(query, ArrayList<String>.class);
-		qry.setParameter("bookingId", bookingId);
+		String query = "SELECT b FROM BookingBean b WHERE b.userID = :userId ";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("userId", userId);
 		bookingList = qry.getResultList();
-		return bookingList;
-		ResultSet resultSet = null;
 		
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			preparedStatement.setInt(1, bookingId);	
-			preparedStatement.setInt(2, userId);
-			myLogger.info("Query Execution : " + query);
-			resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()){
-				int roomNumber = resultSet.getInt("ROOM_NO");
-				LocalDate bookedFrom = resultSet.getDate("BOOKED_FROM").toLocalDate();
-				LocalDate bookedTo = resultSet.getDate("BOOKED_TO").toLocalDate();
-				bookingStatus.add(roomNumber);
-				bookingStatus.add(bookingId);
-				bookingStatus.add(bookedFrom);
-				bookingStatus.add(bookedTo);
-				bookingList.add(bookingStatus);
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from viewBookingStatus()", e);
-			throw new BookingException("Problem in retrieving booking status.", e);
+		List<List<Object>> statusList = new ArrayList<List<Object>>();
+		for(BookingBean bookingBean : bookingList){
+			List<Object> status = new ArrayList<Object>();
+			int roomID = bookingBean.getRoomID();
+			RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+			int hotelID = roomBean.getHotelID();
+			HotelBean hotelBean = entityManager.find(HotelBean.class, hotelID);
+			status.add(bookingBean);
+			status.add(roomBean);
+			status.add(hotelBean);
+			statusList.add(status);
 		}
-		return bookingList;
+		return statusList;
 	}
 
 	@Override
 	public List<RoomBean> searchAvailableRooms(String city) throws BookingException {
 		List<RoomBean> roomList = new ArrayList<RoomBean>();
 		myLogger.info("Execution in searchAvailableRooms()");
-		
-		ResultSet resultSet=null;
-		String query = "SELECT * FROM roomdetails where availability='T' and hotel_id in (select hotel_id from hotels where LOWER(city) = ?) ";
-		try(
-			PreparedStatement preparedStatement = connect.prepareStatement(query);
-		){
-			preparedStatement.setString(1, city); 
-			resultSet = preparedStatement.executeQuery();
-			myLogger.info("Query Execution : " + query);
-			
-			while(resultSet.next()){
-				int roomId = resultSet.getInt("room_Id");
-				int hotelId = resultSet.getInt("hotel_Id");
-				String roomNumber = resultSet.getString("room_No");
-				String roomType = resultSet.getString("room_type");
-				float perNightRate = resultSet.getFloat("per_night_rate");
-				String availabilityString = resultSet.getString("availability");
-				String photo = resultSet.getString("photo");
-				
-				boolean availability = false;
-				if(availabilityString.equals("T")){
-					availability = true;
-				}
-				else{
-					availability = false;
-				}
-				
-				roomList.add(new RoomBean(hotelId, roomId, roomNumber, roomType, perNightRate, availability, photo));
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from searchAvailableRooms()", e);
-			throw new BookingException("Problem in retrieving data.", e);
-		}
+		String query = "SELECT r FROM RoomBean r where r.available='T' and hotelID in (select h.hotelID from HotelBean where LOWER(city) = :city) ";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		qry.setParameter("city", city);
+		roomList = qry.getResultList();
 		return roomList;
 	}
 
 	@Override
 	public List<Integer> getBookingIDs(int userId) throws BookingException {
-		List<Integer> bookingIDs = new ArrayList<Integer>();
-		String query = "SELECT BOOKING_ID FROM BOOKINGDETAILS where user_id=?";
-		myLogger.info("Query Execution : " + query);
-		try (PreparedStatement pstmt= connect.prepareStatement(query);)
-		{	
-			pstmt.setInt(1, userId); 
-			ResultSet resultSet = pstmt.executeQuery();
-			while(resultSet.next()){
-				int id = resultSet.getInt("booking_id");
-				bookingIDs.add(id);
-			}
-		} catch (SQLException e) {
-			myLogger.error("Exception from getBookingIDs()", e);
-			throw new BookingException("Problem in retrieving booking ids.", e);
-		}
-		return bookingIDs;
+		List<Integer> bookingIdList = new ArrayList<Integer>();
+		String query = "SELECT b.BookingID FROM BookingBean b where userID=:userId";
+		TypedQuery<Integer> qry = entityManager.createQuery(query, Integer.class);
+		qry.setParameter("userId", userId);
+		bookingIdList = qry.getResultList();
+		return bookingIdList;
 	}
 
 }

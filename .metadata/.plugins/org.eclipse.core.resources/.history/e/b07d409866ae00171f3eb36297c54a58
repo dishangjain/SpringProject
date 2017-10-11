@@ -1,0 +1,117 @@
+package com.capgemini.hotelbooking.beans;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="USERS")
+public class UserBean {
+	private int userID;
+	private String password;
+	private String role;
+	private String userName;
+	private String mobileNumber;
+	private String address;
+	private String email;
+	private String phoneNumber;
+	private String status;
+	
+	public UserBean() {
+		super();
+	}
+
+	public UserBean(int userID, String password, String role, String userName,
+			String mobileNumber, String address, String email,
+			String phoneNumber, String status) {
+		super();
+		this.userID = userID;
+		this.password = password;
+		this.role = role;
+		this.userName = userName;
+		this.mobileNumber = mobileNumber;
+		this.address = address;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.status = status;
+	}
+	@Id
+	@SequenceGenerator(name="user_id_seq",sequenceName="user_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_id_seq")
+	@Column(name="USER_ID")
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	@Column(name="USER_NAME")
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	@Column(name="MOBILE_NO")
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	@Column(name="phone")
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	@Override
+	public String toString() {
+		return "User(User ID=" + userID + ", Username=" + userName
+				+ ", Mobile number=" + mobileNumber + ", Address=" + address
+				+ ", Email=" + email + ", Phone number=" + phoneNumber + ", User Status=" + status + ")\n";
+	}
+}

@@ -26,18 +26,21 @@ public class RoomBean {
 	}
 	
 	public RoomBean(int hotelID, int roomID, String roomNumber,
-			String roomType, float perNightRate, char availability,
-			String photo) {
+			String roomType, float perNightRate, char available, String photo,
+			String status) {
 		super();
 		this.hotelID = hotelID;
 		this.roomID = roomID;
 		this.roomNumber = roomNumber;
 		this.roomType = roomType;
 		this.perNightRate = perNightRate;
-		this.available = availability;
+		this.available = available;
 		this.photo = photo;
+		this.status = status;
 	}
-	
+
+
+
 	@Column(name="HOTEL_ID")
 	public int getHotelID() {
 		return hotelID;
