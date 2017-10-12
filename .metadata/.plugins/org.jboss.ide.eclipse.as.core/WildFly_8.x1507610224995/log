@@ -332,3 +332,21 @@
 
 !ENTRY org.jboss.ide.eclipse.as.core 1 0 2017-10-12 01:29:06.689
 !MESSAGE Module HotelBookingManagementSystem on WildFly 8.x not yet fully deployed. Waiting...
+
+!ENTRY org.jboss.ide.eclipse.as.wtp.core 1 16973825 2017-10-12 02:35:01.618
+!MESSAGE Server processes have been terminated.
+
+!ENTRY org.jboss.ide.eclipse.as.core 4 0 2017-10-12 02:35:27.907
+!MESSAGE The server "WildFly 8.x" requires a JDK to run properly. The VM used to launch this server is not recognized as a valid JDK. C:\Program Files (x86)\Java\jre1.8.0_102 
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842760 2017-10-12 02:35:30.623
+!MESSAGE Server Starting
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842769 2017-10-12 02:35:49.729
+!MESSAGE Server Startup Succeeded
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 0 2017-10-12 02:35:51.120
+!MESSAGE Module HotelBookingManagementSystem on WildFly 8.x not yet fully deployed. Waiting...
+
+!ENTRY org.jboss.ide.eclipse.as.core 2 0 2017-10-12 02:36:11.990
+!MESSAGE Module HotelBookingManagementSystem on WildFly 8.x still not ready to be shown in browser. Aborting delay.

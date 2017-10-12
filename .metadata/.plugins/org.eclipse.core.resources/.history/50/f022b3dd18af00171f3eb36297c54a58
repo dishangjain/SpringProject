@@ -1,0 +1,9 @@
+package com.capgemini.hotelbooking.controllers;
+
+public class ToDo {
+	//TODO sessions and login, validating user
+	//TODO add change password, cacnel booking, deactivate user, forgot password in daos
+	//TODO update room availablity after checkout
+	//TODO showing room availablity based on date (ask utkarsh)
+	//TODO
+}

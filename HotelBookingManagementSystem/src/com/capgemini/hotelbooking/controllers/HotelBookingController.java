@@ -12,25 +12,24 @@ import org.springframework.web.servlet.ModelAndView;
 import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.UserBean;
 import com.capgemini.hotelbooking.exceptions.BookingException;
-import com.capgemini.hotelbooking.services.AdminService;
-import com.capgemini.hotelbooking.services.CommonService;
-import com.capgemini.hotelbooking.services.CustomerService;
+import com.capgemini.hotelbooking.services.IAdminService;
+import com.capgemini.hotelbooking.services.ICommonService;
+import com.capgemini.hotelbooking.services.ICustomerService;
 
 @Controller
 public class HotelBookingController {
 	@Resource
-	private CommonService service;
+	private ICommonService commonService;
 	@Resource
-	private AdminService adminService;
+	private IAdminService adminService;
 	@Resource
-	private CustomerService customerService;
+	private ICustomerService customerService;
 	
 	@RequestMapping("/getHomePage.do")
 	public ModelAndView getHomePage() {
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("HomePage");
 		return mAndV;
-		
 	}
 	
 	@RequestMapping("/getLoginPage.do")
@@ -38,8 +37,6 @@ public class HotelBookingController {
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("LoginPage");
 		return mAndV;
-		
-		
 	}
 	
 	@RequestMapping("/getSignUpPage.do")
@@ -52,13 +49,11 @@ public class HotelBookingController {
 	@RequestMapping(value="/addUser.do" , method=RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("user") UserBean userBean) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		service.registerUser(userBean);
-		//int userId=userBean.getUserID();
+		commonService.registerUser(userBean);
 		mAndV.addObject("userBean", userBean);
 		mAndV.addObject("pageHead","You have successfully registered.");
 		mAndV.setViewName("Success");
 		return mAndV;
-		
 	}
 	
 		
@@ -66,10 +61,8 @@ public class HotelBookingController {
 	public ModelAndView getFunctionalities(@RequestParam("userName") String userName, @RequestParam("password") String password) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		UserBean validUser=null;
-		validUser = service.login(userName, password);
-		if(validUser==null)
-		{
-			
+		validUser = commonService.login(userName, password);
+		if(validUser==null){
 			mAndV.setViewName("HomePage");
 		}
 		else{
@@ -82,14 +75,13 @@ public class HotelBookingController {
 			}
 		}
 		return mAndV;
-		
 	}
+	
 	@RequestMapping("/AddNewHotel.do")
 	public ModelAndView addNewHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("AddNewHotel");
 		return mAndV;
-
 	}
 	
 	@RequestMapping(value="/AddHotelDetails.do" , method=RequestMethod.POST)
@@ -101,12 +93,12 @@ public class HotelBookingController {
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
+	
 	@RequestMapping("/UpdateExistingHotel.do")
 		public ModelAndView updateExistingHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("UpdateExistingHotel");
 		return mAndV;
-			
 	}
 	//To be continued
 	
