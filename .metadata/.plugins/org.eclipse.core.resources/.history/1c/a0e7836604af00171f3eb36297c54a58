@@ -1,0 +1,11 @@
+package com.capgemini.hotelbooking.services;
+
+import java.util.List;
+
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+
+public interface ICommonService {
+}

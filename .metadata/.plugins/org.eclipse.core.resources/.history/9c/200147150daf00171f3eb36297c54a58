@@ -1,0 +1,19 @@
+package com.capgemini.hotelbooking.controllers;
+
+import javax.annotation.Resource;
+import javax.enterprise.inject.Model;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+import com.capgemini.hotelbooking.services.ICommonService;
+
+@Controller
+public class HotelBookingController {
+}

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Hotel Booking Management System&apos; to &apos;HotelBookingManagementSystem&apos;" description="Rename resource &apos;Hotel Booking Management System&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/Hotel Booking Management System" name="HotelBookingManagementSystem" stamp="1507721930492" updateReferences="true"/>&#x0A;<refactoring comment="Delete resource &apos;JPACrudOperations&apos;" deleteContents="false" description="Delete resource &apos;JPACrudOperations&apos;" element1="/JPACrudOperations" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1507783605019"/>
+</session>
