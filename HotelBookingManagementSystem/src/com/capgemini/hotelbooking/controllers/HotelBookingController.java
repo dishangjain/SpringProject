@@ -85,7 +85,7 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping(value="/AddHotelDetails.do" , method=RequestMethod.POST)
-	public ModelAndView addHotelDetails(@ModelAttribute("newHotel") HotelBean hotelBean ) throws BookingException {
+	public ModelAndView addHotelDetails(@ModelAttribute("newHotel") HotelBean hotelBean) throws BookingException {
 		ModelAndView mAndV = new ModelAndView();
 		adminService.addHotelDetails(hotelBean);
 		mAndV.addObject("HotelBean", hotelBean);
@@ -100,19 +100,13 @@ public class HotelBookingController {
 		mAndV.setViewName("UpdateExistingHotel");
 		return mAndV;
 	}
-	//To be continued
 	
-	/*@RequestMapping("/UpdateHotelDetails")
-	public ModelAndView updateHotelDetails(@RequestParam("hotelID") int hotelID,@RequestParam("attributeOption") String attributeOption,@RequestParam("attributeValue") String attributeValue){
+	@RequestMapping("/UpdateHotelDetails.do")
+	public ModelAndView updateHotelDetails(@RequestParam("hotelID") int hotelID,@RequestParam("attributeOption") int attributeOption,@RequestParam("attributeValue") String attributeValue) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateHotelDetails(hotelID, attributeOption, attributeValue);
 		return mAndV;
-	}*/
-		
-		
-	
-	
-	
+	}
 	
 	/*@RequestMapping("/getEmpList.do")
 	public ModelAndView getEmpList() throws BookingException{

@@ -195,4 +195,13 @@ public class AdminDao implements IAdminDao {
 		myLogger.info("Bookings retrieved for hotel with hotelID = " + hotelID + " are : \n" + guestList);
 		return guestList;
 	}
+
+	@Override
+	public void deactivateUser(int userId) throws BookingException {
+		myLogger.info("Execution in deactivateUser()");
+		UserBean userBean = entityManager.find(UserBean.class, userId);
+		userBean.setStatus("inactive");
+		myLogger.info("1 row deleted from users."
+				+ "\nuser ID of deleted row : " + userId);
+	}
 }

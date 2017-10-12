@@ -1,0 +1,159 @@
+package com.capgemini.hotelbooking.daos;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.HotelBean;
+import com.capgemini.hotelbooking.beans.RoomBean;
+import com.capgemini.hotelbooking.beans.UserBean;
+import com.capgemini.hotelbooking.exceptions.BookingException;
+
+@Repository
+public class CommonDao implements ICommonDao {
+	static Logger myLogger = Logger.getLogger("myLogger");
+
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	private String generatePasswordHash(String password) throws BookingException{
+		MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			myLogger.error("Algorithm for hash not found.");
+			throw new BookingException("System Error.");
+		}
+		messageDigest.update(password.getBytes());
+		byte[] bytes = messageDigest.digest();
+		StringBuilder stringBuilder = new StringBuilder();
+		for(int i=0;i < bytes.length;i++){
+			stringBuilder.append(Integer.toHexString(0xff & bytes[i]));
+		}
+		return stringBuilder.toString();
+	}
+	
+	@Override
+	public UserBean login(String username, String password)
+			throws BookingException {
+		List<UserBean> userList = new ArrayList<UserBean>();
+		myLogger.info("Execution in Login()");
+		String hashedPassword = generatePasswordHash(password);
+		String query = "SELECT u FROM UserBean u WHERE userName = :username AND password = :hashedPassword AND status='active'";
+		TypedQuery<UserBean> qry = entityManager.createQuery(query, UserBean.class);
+		qry.setParameter("username", username);
+		qry.setParameter("hashedPassword", hashedPassword);
+		userList = qry.getResultList();
+		if(userList.size() == 1){
+			UserBean validUser = userList.get(0);
+			myLogger.info("User logged in with info : " + validUser.toString());
+			return userList.get(0);
+		}
+		else{
+			myLogger.info("User not validated\nUserName : " + username + "\nPassword : " + password);
+			return null;
+		}
+	}
+	
+	@Override
+	public List<HotelBean> retrieveHotels() throws BookingException {
+		List<HotelBean> hotelList = new ArrayList<HotelBean>();
+		myLogger.info("Execution in retrieveHotels()");
+		String query = "SELECT h FROM HotelBean h where h.status='active'";
+		TypedQuery<HotelBean> qry = entityManager.createQuery(query, HotelBean.class);
+		hotelList = qry.getResultList();
+		myLogger.info("Hotels retrieved are : \n" + hotelList);
+		return hotelList;
+	}
+	
+	@Override
+	public List<RoomBean> retrieveRooms() throws BookingException {
+		List<RoomBean> roomList = new ArrayList<RoomBean>();
+		myLogger.info("Execution in retrieveRooms()");
+		String query = "SELECT r FROM RoomBean r WHERE r.status = 'active'";
+		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
+		roomList = qry.getResultList();
+		myLogger.info("Rooms retrieved are : \n" + roomList);
+		return roomList;
+	}
+	
+	@Override
+	public void registerUser(UserBean userBean) throws BookingException {
+		myLogger.info("Execution in registerUser()");
+		entityManager.persist(userBean);
+		myLogger.info("New Entry -> User ID : "+ userBean.getUserID()
+							+ "\nPassword Hash: " + generatePasswordHash(userBean.getPassword())
+							+ "\nRole : " + userBean.getRole()
+							+ "\nUser Name : " + userBean.getUserName()
+							+ "\nMobile Number : " + userBean.getMobileNumber()
+							+ "\nPhone Number : " + userBean.getPhoneNumber()
+							+ "\nAddress : " + userBean.getAddress()
+							+ "\nEmail : " + userBean.getEmail());
+	}
+
+	@Override
+	public List<String> retrieveUserNames() throws BookingException {
+		List<String> userNameList = new ArrayList<String>();
+		myLogger.info("Execution in retrieveUserNames()");
+		String query = "SELECT u.userName FROM UserBean u";
+		TypedQuery<String> qry = entityManager.createQuery(query, String.class);
+		userNameList = qry.getResultList();
+		myLogger.info("UserNames retrieved are : \n" + userNameList);
+		return userNameList;
+	}
+
+	@Override
+	public void cancelBooking(int bookingId) throws BookingException {
+		myLogger.info("Execution in cancelBooking()");
+		BookingBean bookingBean = entityManager.find(BookingBean.class, bookingId);
+		bookingBean.setStatus("inactive");
+		myLogger.info("1 row deleted from bookingdetails."
+				+ "\nbooking ID of deleted row : " + bookingId);
+	}
+	
+	@Override
+	public void resetPassword(int userId, String newPassword) throws BookingException{
+		myLogger.info("Execution in resetPassword()");
+		UserBean userBean = entityManager.find(UserBean.class, userId);
+		userBean.setPassword(generatePasswordHash(newPassword));
+		myLogger.info("Room Table Updated."
+				+ "\nUser ID : " + userId
+				+ "\nColumn Name : " + "password"
+				+ "Column Value(hashed) : " + newPassword);
+	}
+
+	@Override
+	public void updateAvailabilityAfterCheckout() throws BookingException {
+		myLogger.info("Execution in updateAvailabilityAfterCheckout()");
+		Date currentDate = new Date();
+		String query = "SELECT b FROM BookingBean b";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
+		List<BookingBean> bookingList = qry.getResultList();
+		for(BookingBean bookingBean : bookingList){
+			if(bookingBean.getBookedTo().compareTo(currentDate) < 0){
+				int roomID = bookingBean.getRoomID();
+				bookingBean.setStatus("inactive");
+				RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+				roomBean.setAvailable('T');
+			}
+		}
+		myLogger.info("BookingDetails and RoomDetails Table Updated.");
+		RoomBean roomBean = entityManager.find(UserBean.class, userId);
+		
+		userBean.setPassword(generatePasswordHash(newPassword));
+		myLogger.info("Room Table Updated."
+				+ "\nUser ID : " + userId
+				+ "\nColumn Name : " + "password"
+				+ "Column Value(hashed) : " + newPassword);
+	}
+}

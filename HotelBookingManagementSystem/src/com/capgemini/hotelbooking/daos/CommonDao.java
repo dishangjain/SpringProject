@@ -3,6 +3,7 @@ package com.capgemini.hotelbooking.daos;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.capgemini.hotelbooking.beans.BookingBean;
 import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.beans.UserBean;
@@ -108,5 +110,43 @@ public class CommonDao implements ICommonDao {
 		userNameList = qry.getResultList();
 		myLogger.info("UserNames retrieved are : \n" + userNameList);
 		return userNameList;
+	}
+
+	@Override
+	public void cancelBooking(int bookingId) throws BookingException {
+		myLogger.info("Execution in cancelBooking()");
+		BookingBean bookingBean = entityManager.find(BookingBean.class, bookingId);
+		bookingBean.setStatus("inactive");
+		myLogger.info("1 row deleted from bookingdetails."
+				+ "\nbooking ID of deleted row : " + bookingId);
+	}
+	
+	@Override
+	public void resetPassword(int userId, String newPassword) throws BookingException{
+		myLogger.info("Execution in resetPassword()");
+		UserBean userBean = entityManager.find(UserBean.class, userId);
+		userBean.setPassword(generatePasswordHash(newPassword));
+		myLogger.info("Room Table Updated."
+				+ "\nUser ID : " + userId
+				+ "\nColumn Name : " + "password"
+				+ "Column Value(hashed) : " + newPassword);
+	}
+
+	@Override
+	public void updateAvailabilityAfterCheckout() throws BookingException {
+		myLogger.info("Execution in updateAvailabilityAfterCheckout()");
+		Date currentDate = new Date();
+		String query = "SELECT b FROM BookingBean b";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
+		List<BookingBean> bookingList = qry.getResultList();
+		for(BookingBean bookingBean : bookingList){
+			if(bookingBean.getBookedTo().compareTo(currentDate) < 0){
+				int roomID = bookingBean.getRoomID();
+				bookingBean.setStatus("inactive");
+				RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+				roomBean.setAvailable('T');
+			}
+		}
+		myLogger.info("BookingDetails and RoomDetails Table Updated.");
 	}
 }
