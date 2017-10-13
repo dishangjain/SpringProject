@@ -227,14 +227,4 @@ public class AdminService implements IAdminService{
 	public List<UserBean> viewGuestList(int hotelID) throws BookingException {
 		return dao.viewGuestList(hotelID);
 	}
-
-	@Override
-	public HotelBean retrieveHotelDetails(int hotelID) throws BookingException {	
-		return dao.retrieveHotelDetails(hotelID);
-	}
-	
-	@Override
-	public RoomBean retrieveRoomDetails(int roomID) throws BookingException{
-		return dao.retrieveRoomDetails(roomID);
-	}
 }

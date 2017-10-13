@@ -19,4 +19,6 @@ public interface IAdminService {
 	public List<BookingBean> viewBookingsOfHotel(int hotelID) throws BookingException;
 	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException;
 	List<UserBean> viewGuestList(int hotelID) throws BookingException;
+	public HotelBean retrieveHotelDetails(int hotelID) throws BookingException;
+	public RoomBean retrieveRoomDetails(int roomID) throws BookingException;
 }

@@ -131,7 +131,7 @@ public class HotelBookingController {
 	@RequestMapping(value="/deleteHotelDetails.do", method=RequestMethod.POST )
 	public ModelAndView deleteHotelDetails(@RequestParam("hotelID") int hotelID) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		HotelBean hotelBean = adminService.retrieveHotelDetails(hotelID);
+		HotelBean hotelBean = commonService.retrieveHotels(hotelID);
 		mAndV.addObject("hotelBean", hotelBean);
 		adminService.deleteHotelDetails(hotelID);
 		mAndV.addObject("pageHead", "Hotel Details are successfully deleted.");

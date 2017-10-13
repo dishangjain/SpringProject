@@ -145,8 +145,9 @@ public class AdminDao implements IAdminDao {
 	public List<BookingBean> viewBookingsOfHotel(int hotelID) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in viewBookingsOfHotel()");
-		String query = "SELECT b FROM BookingBean b WHERE b.roomID in (SELECT r.roomID from RoomBean r "
-				+ "WHERE r.hotelID = :hotelID)";
+		updateAvailabilityAfterCheckout();
+		String query = "SELECT b FROM BookingBean b WHERE b.status='active' AND b.roomID in (SELECT r.roomID from RoomBean r "
+				+ "WHERE r.hotelID = :hotelID AND r.status='active')";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("hotelID", hotelID);
 		bookingList = qry.getResultList();
@@ -158,7 +159,8 @@ public class AdminDao implements IAdminDao {
 	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in getBookingsOfDate()");
-		String query = "SELECT b FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo";
+		updateAvailabilityAfterCheckout();
+		String query = "SELECT b FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo AND b.status='active'";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("date", date);
 		bookingList = qry.getResultList();
@@ -186,6 +188,7 @@ public class AdminDao implements IAdminDao {
 
 	@Override
 	public List<UserBean> viewGuestList(int hotelID) throws BookingException {
+		//TODO change query and function
 		List<UserBean> guestList = new ArrayList<UserBean>();
 		myLogger.info("Execution in viewGuestList()");
 		String query = "SELECT u FROM UserBean u WHERE u.userID in (SELECT b.userID FROM BookingBean b "
@@ -204,18 +207,21 @@ public class AdminDao implements IAdminDao {
 		myLogger.info("1 row deleted from users."
 				+ "\nuser ID of deleted row : " + userId);
 	}
-
-	@Override
-	public HotelBean retrieveHotelDetails(int hotelID) throws BookingException {
-		myLogger.info("Execution in retrieveHotelDetails()");
-		HotelBean hotelBean = entityManager.find(HotelBean.class, hotelID);
-		return hotelBean;
-	}
-
-	@Override
-	public RoomBean retrieveRoomDetails(int roomID) throws BookingException {
-		myLogger.info("Execution in retrieveRoomDetails()");
-		RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
-		return roomBean;
+	
+	private void updateAvailabilityAfterCheckout() throws BookingException {
+		myLogger.info("Execution in updateAvailabilityAfterCheckout()");
+		Date currentDate = new Date();
+		String query = "SELECT b FROM BookingBean b WHERE b.status='active'";
+		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
+		List<BookingBean> bookingList = qry.getResultList();
+		for(BookingBean bookingBean : bookingList){
+			if(bookingBean.getBookedTo().compareTo(currentDate) < 0){
+				int roomID = bookingBean.getRoomID();
+				bookingBean.setStatus("inactive");
+				RoomBean roomBean = entityManager.find(RoomBean.class, roomID);
+				roomBean.setAvailable('T');
+			}
+		}
+		myLogger.info("BookingDetails and RoomDetails Table Updated.");
 	}
 }

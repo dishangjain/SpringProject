@@ -20,6 +20,4 @@ public interface IAdminDao {
 	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException;
 	public List<UserBean> viewGuestList(int hotelID) throws BookingException;
 	public void deactivateUser(int userId) throws BookingException;
-	public HotelBean retrieveHotelDetails(int hotelID) throws BookingException;
-	public RoomBean retrieveRoomDetails(int roomID) throws BookingException;
 }
