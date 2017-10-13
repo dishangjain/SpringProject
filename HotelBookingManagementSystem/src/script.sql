@@ -66,7 +66,7 @@ create sequence hotel_id_seq;
 create sequence user_id_seq;
 create sequence room_id_seq;
 
-insert into users values(0,'36bcbb801f5052739af822c6ea51434','admin','system', 'Dishang Jain',
-'7721849377','9324352142','Capgemini Pune','jaindishang24@gmail.com','active');
+insert into users values(0,'36bcbb801f5052739af822c6ea51434','admin','system', 'Pramod Agnihotri',
+'7721849377','9324352142','2nd Palk Street,New York, United States','admin@travellerbuddy.com','active');
 
 commit;

@@ -13,9 +13,8 @@
 		<h3>Home Page</h3>
 		
 		<div id="mainMenu">
-			<a href="getEmpList.do">View List</a><br/>
-			<a href="getEntryPage.do">Add new Employee</a><br/>
-			<a href="getUpdateNamePage.do">Update employee name</a><br/>
+			<a href="getLoginPage.do">Login Page</a><br/>
+			<a href="getSignUpPage.do">Sign Up</a><br/>
 		</div>
 	</body>
 </html>

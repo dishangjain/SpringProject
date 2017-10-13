@@ -15,5 +15,4 @@ public interface ICommonDao {
 	public List<String> retrieveUserNames() throws BookingException;
 	public void cancelBooking(int bookingId) throws BookingException;
 	public void resetPassword(int userId, String newPassword) throws BookingException;
-	public void updateAvailabilityAfterCheckout() throws BookingException;
 }

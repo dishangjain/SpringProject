@@ -80,6 +80,7 @@ public class CommonDao implements ICommonDao {
 	public List<RoomBean> retrieveRooms() throws BookingException {
 		List<RoomBean> roomList = new ArrayList<RoomBean>();
 		myLogger.info("Execution in retrieveRooms()");
+		updateAvailabilityAfterCheckout();
 		String query = "SELECT r FROM RoomBean r WHERE r.status = 'active'";
 		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
 		roomList = qry.getResultList();
@@ -105,7 +106,7 @@ public class CommonDao implements ICommonDao {
 	public List<String> retrieveUserNames() throws BookingException {
 		List<String> userNameList = new ArrayList<String>();
 		myLogger.info("Execution in retrieveUserNames()");
-		String query = "SELECT u.userName FROM UserBean u";
+		String query = "SELECT u.userName FROM UserBean u WHERE u.status='active'";
 		TypedQuery<String> qry = entityManager.createQuery(query, String.class);
 		userNameList = qry.getResultList();
 		myLogger.info("UserNames retrieved are : \n" + userNameList);
@@ -131,12 +132,11 @@ public class CommonDao implements ICommonDao {
 				+ "\nColumn Name : " + "password"
 				+ "Column Value(hashed) : " + newPassword);
 	}
-
-	@Override
-	public void updateAvailabilityAfterCheckout() throws BookingException {
+	
+	private void updateAvailabilityAfterCheckout() throws BookingException {
 		myLogger.info("Execution in updateAvailabilityAfterCheckout()");
 		Date currentDate = new Date();
-		String query = "SELECT b FROM BookingBean b";
+		String query = "SELECT b FROM BookingBean b WHERE b.status='active'";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		List<BookingBean> bookingList = qry.getResultList();
 		for(BookingBean bookingBean : bookingList){
