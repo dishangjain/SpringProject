@@ -67,7 +67,7 @@ public class HotelBookingController {
 		}
 		else{
 			mAndV.addObject("pageHead", userName);
-			if("system".equals(userName)){
+			if("admin".equals(validUser.getRole())){
 				mAndV.setViewName("Admin");
 			}
 			else{
@@ -77,31 +77,31 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/AddNewHotel.do")
+	@RequestMapping("/addNewHotel.do")
 	public ModelAndView addNewHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("AddNewHotel");
 		return mAndV;
 	}
 	
-	@RequestMapping(value="/AddHotelDetails.do" , method=RequestMethod.POST)
+	@RequestMapping(value="/addHotelDetails.do" , method=RequestMethod.POST)
 	public ModelAndView addHotelDetails(@ModelAttribute("newHotel") HotelBean hotelBean) throws BookingException {
 		ModelAndView mAndV = new ModelAndView();
 		adminService.addHotelDetails(hotelBean);
-		mAndV.addObject("HotelBean", hotelBean);
+		mAndV.addObject("hotelBean", hotelBean);
 		mAndV.addObject("pageHead","Hotel is registered successfully.");
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
 	
-	@RequestMapping("/UpdateExistingHotel.do")
+	@RequestMapping("/updateExistingHotel.do")
 		public ModelAndView updateExistingHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("UpdateExistingHotel");
 		return mAndV;
 	}
 	
-	@RequestMapping("/UpdateHotelDetails.do")
+	@RequestMapping("/updateHotelDetails.do")
 	public ModelAndView updateHotelDetails(@RequestParam("hotelID") int hotelID,@RequestParam("attributeOption") int attributeOption,@RequestParam("attributeValue") String attributeValue) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateHotelDetails(hotelID, attributeOption, attributeValue);

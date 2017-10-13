@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="P:\Users\disjain\workspace\JPACrudOperations"/>
+			<item value="P:\Users\disjain\workspace\SpringMVC050Validation"/>
+			<item value="P:\Users\disjain\workspace\SpringMVC040_NgRest"/>
+			<item value="P:\Users\disjain\workspace\SpringMVC030CRUD"/>
+			<item value="P:\Users\disjain\workspace\NgJS010"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+</section>
