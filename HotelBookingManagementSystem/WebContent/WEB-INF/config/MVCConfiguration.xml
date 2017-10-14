@@ -16,7 +16,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name="viewClass">
 			<value>org.springframework.web.servlet.view.JstlView</value>
 		</property>
-		<property name="prefix"><value>/jsps/</value></property>
+		<property name="prefix"><value>/JSPs/</value></property>
 		<property name="suffix"><value>.jsp</value></property>
 	</bean>
 </beans>

@@ -12,16 +12,16 @@
 		
 		
 		<div id="mainMenu">
-			<a href="null.jsp">Add new Hotel</a><br>
-			<a href="null.jsp">Update Existing Hotel</a><br>
-			<a href="null.jsp">Delete a Hotel</a><br>
-			<a href="null.jsp">Add new Room</a><br>
-			<a href="null.jsp">Update Existing Room</a><br>
-			<a href="null.jsp">Delete a room</a><br>
-			<a href="null.jsp">View all Hotels</a><br>
-			<a href="null.jsp">Book Hotel by ID</a><br>
-			<a href="null.jsp">Book Hotel By Date</a><br>
-			<a href="null.jsp">Log Out</a>
+			<a href="getNullPage.do">Add new Hotel</a><br>
+			<a href="getNullPage.do">Update Existing Hotel</a><br>
+			<a href="getNullPage.do">Delete a Hotel</a><br>
+			<a href="getNullPage.do">Add new Room</a><br>
+			<a href="getNullPage.do">Update Existing Room</a><br>
+			<a href="getNullPage.do">Delete a room</a><br>
+			<a href="getNullPage.do">View all Hotels</a><br>
+			<a href="getNullPage.do">Book Hotel by ID</a><br>
+			<a href="getNullPage.do">Book Hotel By Date</a><br>
+			<a href="getNullPage.do">Log Out</a>
 		</div>
 		
 		

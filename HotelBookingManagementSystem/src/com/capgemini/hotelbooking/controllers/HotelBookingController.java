@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,22 +34,31 @@ public class HotelBookingController {
 	@Resource
 	private ICustomerService customerService;
 	
+	//ConstructionPURPOSE
+	@RequestMapping("/getNullPage.do")
+	public ModelAndView getNullPage() {
+		ModelAndView mAndV = new ModelAndView();
+		mAndV.setViewName("null");
+		return mAndV;
+	}
+	//to be removed before final deployment
 	
-	@RequestMapping("/getHomePageJsp.do")
+	
+	@RequestMapping("/getHomePage.do")
 	public ModelAndView getHomePage() {
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("HomePage");
 		return mAndV;
 	}
 	
-	@RequestMapping("/getLoginPageJsp.do")
+	@RequestMapping("/getLoginPage.do")
 	public ModelAndView getLoginPage() {
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("LoginPage");
 		return mAndV;
 	}
 	
-	@RequestMapping("/getSignUpPageJsp.do")
+	@RequestMapping("/getSignUpPage.do")
 	public ModelAndView getSignUpPage(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("SignUp");
@@ -56,13 +66,16 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping(value="/addUser.do" , method=RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute("user") UserBean userBean) throws BookingException{
-		ModelAndView mAndV = new ModelAndView();
+	public String addUser(@ModelAttribute("UserBean") UserBean userBean , Model mAndV ) throws BookingException{
+		
+		System.out.println(userBean);
+		userBean.setRole("customer");
+		userBean.setStatus("active");
 		commonService.registerUser(userBean);
-		mAndV.addObject("userBean", userBean);
-		mAndV.addObject("pageHead","You have successfully registered.");
-		mAndV.setViewName("Success");
-		return mAndV;
+		System.out.println(userBean);
+		mAndV.addAttribute("userBean", userBean);
+		mAndV.addAttribute("pageHead","You have successfully registered.");
+		return "Success";
 	}
 	
 		
@@ -86,7 +99,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/addNewHotelJsp.do")
+	@RequestMapping("/addNewHotel.do")
 	public ModelAndView addNewHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("AddNewHotel");
@@ -121,7 +134,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/deleteHotelJsp.do")
+	@RequestMapping("/deleteHotel.do")
 	public ModelAndView deleteHotel(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("DeleteHotel");
@@ -139,7 +152,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/addNewRoomJsp.do")
+	@RequestMapping("/addNewRoom.do")
 	public ModelAndView addNewRoom(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("AddNewRoom");
@@ -217,7 +230,7 @@ public class HotelBookingController {
 	}
 	
 	
-	@RequestMapping("/viewAllHotelsJsp.do")
+	@RequestMapping("/viewAllHotels.do")
 	public ModelAndView viewAllHotelsJsp() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		List<HotelBean> hotelList = commonService.retrieveHotels(); 
@@ -226,7 +239,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/getHotelByIdJsp.do")
+	@RequestMapping("/getHotelById.do")
 	public ModelAndView getHotelByIdJsp(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("HotelBookingListID");
@@ -242,7 +255,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/getHotelByDateJsp.do")
+	@RequestMapping("/getHotelByDate.do")
 	public ModelAndView getHotelByDateJsp(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("HotelBookingListDate");
@@ -265,7 +278,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping("/getHotelByIDJsp.do")
+	@RequestMapping("/getHotelByID.do")
 	public ModelAndView getHotelByIDJsp(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("GuestList");
