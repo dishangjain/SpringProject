@@ -8,9 +8,9 @@
 	</head>
 	<body>
 		<h1>${pageHead }</h1>
-		<h3>${userBean.userName } is successfully addes to database</h3>
+		<%-- <h3>${userBean.userName } is successfully added to database</h3><br> --%>
 		
-		
+		<a href="${ home }"> Home Page</a>
 		
 	</body>
 </html>

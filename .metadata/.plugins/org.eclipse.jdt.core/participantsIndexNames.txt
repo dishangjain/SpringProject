@@ -5,7 +5,5 @@ P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\167754340
 \SpringMVC040_NgRest\src
 P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1058931393.index
 \SpringMVC030CRUD\src
-P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\834408763.index
-\Hotel Booking Management System\src
 P:\SpringProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4020527602.index
 \HotelBookingManagementSystem\src

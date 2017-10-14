@@ -11,9 +11,9 @@
 	<body>
 		
 		<div id="mainMenu">
-			<a href="null.jsp">Search Hotels</a><br>
-			<a href="null.jsp">View Booking Status</a><br>
-			<a href="null.jsp">Log Out</a><br>
+			<a href="getNullPage.do">Search Hotels</a><br>
+			<a href="getNullPage.do">View Booking Status</a><br>
+			<a href="getNullPage.do">Log Out</a><br>
 		</div>
 	</body>
 </html>

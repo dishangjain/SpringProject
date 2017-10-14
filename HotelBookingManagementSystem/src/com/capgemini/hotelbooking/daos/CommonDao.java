@@ -91,6 +91,7 @@ public class CommonDao implements ICommonDao {
 	@Override
 	public void registerUser(UserBean userBean) throws BookingException {
 		myLogger.info("Execution in registerUser()");
+		userBean.setPassword(generatePasswordHash(userBean.getPassword()));
 		entityManager.persist(userBean);
 		myLogger.info("New Entry -> User ID : "+ userBean.getUserID()
 							+ "\nPassword Hash: " + generatePasswordHash(userBean.getPassword())

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +45,20 @@ public class HotelBookingController {
 	}
 	//to be removed before final deployment
 	
+	@RequestMapping("/getAdminPage.do")
+	public ModelAndView getAdminPage(){
+		ModelAndView mAndV = new ModelAndView();
+		mAndV.setViewName("Admin");
+		return mAndV;
+	}
 	
+	@RequestMapping("/getCustomerPage.do")
+	public ModelAndView getCustomerPage(){
+		ModelAndView mAndV = new ModelAndView();
+		mAndV.setViewName("Customer");
+		return mAndV;
+		
+	}
 	@RequestMapping("/getHomePage.do")
 	public ModelAndView getHomePage() {
 		ModelAndView mAndV = new ModelAndView();
@@ -61,33 +76,43 @@ public class HotelBookingController {
 	@RequestMapping("/getSignUpPage.do")
 	public ModelAndView getSignUpPage(){
 		ModelAndView mAndV = new ModelAndView();
+		UserBean userBean = new UserBean();
+		mAndV.addObject("userBean", userBean);
 		mAndV.setViewName("SignUp");
 		return mAndV;
 	}
 	
 	@RequestMapping(value="/addUser.do" , method=RequestMethod.POST)
-	public String addUser(@ModelAttribute("UserBean") UserBean userBean , Model mAndV ) throws BookingException{
+	public String addUser(@ModelAttribute("userBean") UserBean userBean , Model mAndV ) throws BookingException{
 		
-		System.out.println(userBean);
 		userBean.setRole("customer");
 		userBean.setStatus("active");
 		commonService.registerUser(userBean);
-		System.out.println(userBean);
-		mAndV.addAttribute("userBean", userBean);
-		mAndV.addAttribute("pageHead","You have successfully registered.");
-		return "Success";
+		if(userBean.getUserID() > 0){
+			mAndV.addAttribute("userBean", userBean);
+			mAndV.addAttribute("pageHead",userBean.getUserName()+"is successfully registered.");
+			mAndV.addAttribute("home","getAdminPage.do");
+			return "Success";
+		}
+		else{
+			mAndV.addAttribute("pageHead", "Sign up Error please try again later.");
+			return "ErrorPage";
+		}
+		
 	}
 	
 		
 	@RequestMapping(value="/getFunctionalities.do", method=RequestMethod.POST)
-	public ModelAndView getFunctionalities(@RequestParam("userName") String userName, @RequestParam("password") String password) throws BookingException{
+	public ModelAndView getFunctionalities(@RequestParam("userName") String userName, @RequestParam("password") String password,HttpServletRequest request) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		UserBean validUser=null;
+		HttpSession session = request.getSession(true);
 		validUser = commonService.login(userName, password);
 		if(validUser==null){
 			mAndV.setViewName("HomePage");
 		}
 		else{
+			session.setAttribute("userBean", validUser);
 			mAndV.addObject("pageHead", userName);
 			if("admin".equals(validUser.getRole())){
 				mAndV.setViewName("Admin");
@@ -102,16 +127,20 @@ public class HotelBookingController {
 	@RequestMapping("/addNewHotel.do")
 	public ModelAndView addNewHotel(){
 		ModelAndView mAndV = new ModelAndView();
+		HotelBean hotelBean = new HotelBean();
+		mAndV.addObject("hotelBean", hotelBean);
 		mAndV.setViewName("AddNewHotel");
 		return mAndV;
 	}
 	
 	@RequestMapping(value="/addHotelDetails.do" , method=RequestMethod.POST)
-	public ModelAndView addHotelDetails(@ModelAttribute("newHotel") HotelBean hotelBean) throws BookingException {
+	public ModelAndView addHotelDetails(@ModelAttribute("hotelBean") HotelBean hotelBean) throws BookingException {
 		ModelAndView mAndV = new ModelAndView();
+		hotelBean.setStatus("active");
 		adminService.addHotelDetails(hotelBean);
 		mAndV.addObject("hotelBean", hotelBean);
-		mAndV.addObject("pageHead","Hotel is registered successfully.");
+		mAndV.addObject("pageHead",hotelBean.getHotelName()+"Hotel is registered successfully.");
+		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
@@ -120,7 +149,7 @@ public class HotelBookingController {
 	public ModelAndView getHotelList() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		List<HotelBean> hotelList =  commonService.retrieveHotels();
-		mAndV.addObject("HotelList", hotelList);
+		mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("UpdateHotel");		
 		return mAndV;
 	}
@@ -130,13 +159,17 @@ public class HotelBookingController {
 	public ModelAndView updateHotelDetails(@RequestParam("hotelID") int hotelID,@RequestParam("attributeOption") int attributeOption,@RequestParam("attributeValue") String attributeValue) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateHotelDetails(hotelID, attributeOption, attributeValue);
-		mAndV.setViewName("Success");	
+		mAndV.addObject("pageHead","Hotel with hotel ID"+ hotelID +" is successfully Updated.");
+		mAndV.addObject("home","getAdminPage.do");
+		mAndV.setViewName("Success");
 		return mAndV;
 	}
 	
 	@RequestMapping("/deleteHotel.do")
-	public ModelAndView deleteHotel(){
+	public ModelAndView deleteHotel() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
+		List<HotelBean> hotelList =  commonService.retrieveHotels();
+		mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("DeleteHotel");
 		return mAndV;
 	}
@@ -147,46 +180,43 @@ public class HotelBookingController {
 		HotelBean hotelBean = adminService.retrieveHotelDetails(hotelID);
 		mAndV.addObject("hotelBean", hotelBean);
 		adminService.deleteHotelDetails(hotelID);
-		mAndV.addObject("pageHead", "Hotel Details are successfully deleted.");
+		mAndV.addObject("pageHead", "Hotel with hotel ID"+ hotelID +" is successfully deleted.");
+		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
 	
 	@RequestMapping("/addNewRoom.do")
-	public ModelAndView addNewRoom(){
+	public ModelAndView addNewRoom() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		mAndV.setViewName("AddNewRoom");
-		return mAndV;
-	}
-	
-	@RequestMapping(value="/addRoomById.do", method=RequestMethod.POST )
-	public ModelAndView AddRoomById(@RequestParam("hotelID") int hotelID) throws BookingException{
-		ModelAndView mAndV = new ModelAndView();
-		mAndV.addObject("hotelID", hotelID);
-		// TO-Do validate input hotel id
 		RoomBean roomBean = new RoomBean();
-		mAndV.addObject("RoomBean", roomBean);
-		mAndV.setViewName("AddRoomDetails");		
+		mAndV.addObject("roomBean", roomBean);
+		List<HotelBean> hotelList =  commonService.retrieveHotels();
+		mAndV.addObject("hotelList", hotelList);
+		mAndV.setViewName("AddNewRoom");
 		return mAndV;
 	}
 	
 	@RequestMapping(value="/insertRoom.do", method=RequestMethod.POST )
 	public ModelAndView InsertRoom(@ModelAttribute("roomBean") RoomBean roomBean) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
+		roomBean.setAvailable('T');
+		roomBean.setStatus("active");
 		adminService.addRoomDetails(roomBean);
-		// mAndV.addObject("hotelID", hotelID);
-		mAndV.addObject("pageHead", "Room is successfully added.");
+		
+		mAndV.addObject("pageHead","Room with room ID"+ roomBean.getRoomID() +" is successfully added.");
+		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
 	
-	@RequestMapping(value="/getRoomList.do", method=RequestMethod.POST )
+	@RequestMapping(value="/getRoomList.do")
 	public ModelAndView UpdateRoomList() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		List<HotelBean> hotelList =  commonService.retrieveHotels();
+		//List<HotelBean> hotelList =  commonService.retrieveHotels();
 		List<RoomBean> roomList = commonService.retrieveRooms();
-		mAndV.addObject("RoomList", roomList);
-		mAndV.addObject("HotelList", hotelList);
+		mAndV.addObject("roomList", roomList);
+		//mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("UpdateRoom");		
 		return mAndV;
 	}
@@ -200,19 +230,20 @@ public class HotelBookingController {
 			) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateRoomDetails(roomID, attributeOption, attributeValue);
-		mAndV.addObject("pageHead", "Room Updated");
+		mAndV.addObject("pageHead","Room with room ID"+ roomID +" is Updated");
+		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");				
 		return mAndV;
 	}
 	
 
-	@RequestMapping(value="/deleteRoomList.do", method=RequestMethod.POST )
+	@RequestMapping(value="/deleteRoomList.do")
 	public ModelAndView deleteRoomList() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		List<HotelBean> hotelList =  commonService.retrieveHotels();
+		//List<HotelBean> hotelList =  commonService.retrieveHotels();
 		List<RoomBean> roomList = commonService.retrieveRooms();
-		mAndV.addObject("RoomList", roomList);
-		mAndV.addObject("HotelList", hotelList);
+		mAndV.addObject("roomList", roomList);
+		//mAndV.addObject("HotelList", hotelList);
 		mAndV.setViewName("DeleteRoom");		
 		return mAndV;
 	}
@@ -223,8 +254,9 @@ public class HotelBookingController {
 		RoomBean roomBean = new RoomBean();
 		roomBean = adminService.retrieveRoomDetails(roomID);
 		adminService.deleteRoomDetails(roomID);
-		mAndV.addObject("pageHead", "The following room is deleted");
+		mAndV.addObject("pageHead", "Room with room ID"+ roomID +" is deleted");
 		mAndV.addObject("RoomBean", roomBean);
+		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");				
 		return mAndV;
 	}
@@ -234,7 +266,7 @@ public class HotelBookingController {
 	public ModelAndView viewAllHotelsJsp() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		List<HotelBean> hotelList = commonService.retrieveHotels(); 
-		mAndV.addObject("HotelList", hotelList);
+		mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("HotelList");		
 		return mAndV;
 	}
@@ -291,8 +323,82 @@ public class HotelBookingController {
 		List<UserBean> guestList=adminService.viewGuestList(hotelID);
 		mAndV.addObject("guestList", guestList);
 		mAndV.setViewName("GuestList");
+		return mAndV;	
+	}
+	
+	@RequestMapping("/getCity.do")
+	public ModelAndView getCity(){
+		ModelAndView mAndV = new ModelAndView();
+		mAndV.setViewName("CityEntry");
 		return mAndV;
+	}
+	
+	@RequestMapping("/searchHotels.do")
+	public ModelAndView searchHotels(@RequestParam("city") String city) throws BookingException{
+		ModelAndView mAndV = new ModelAndView();
+		List<RoomBean> roomList=customerService.searchAvailableRooms(city);
+		if(roomList.size()>0)
+		{
+		mAndV.addObject("roomList", roomList);
+		mAndV.setViewName("Roomdetails");
+		}
+		else{
+			mAndV.addObject("pageHead", "No rooms found.");
+			mAndV.setViewName("Error");
+		}
+		return mAndV;
+	}
+	
+	@RequestMapping("/bookRoom.do")
+	public ModelAndView bookRoom(HttpServletRequest request,@RequestParam("roomID") String roomID){
+		ModelAndView mAndV = new ModelAndView();
+		BookingBean bookingBean = new BookingBean();
+		mAndV.addObject("bookingBean", bookingBean);
+		HttpSession session=request.getSession();
+		UserBean userBean=(UserBean) session.getAttribute("userBean");
+		int userID= userBean.getUserID();
+		mAndV.addObject("userID", userID);
+		mAndV.addObject("roomID", roomID);
+		mAndV.setViewName("BookRoom");
+		return mAndV;
+	}
+	
+	@RequestMapping(value="/bookRoom.do",  method=RequestMethod.POST)
+	public ModelAndView bookRoom(@ModelAttribute("bookingBean") BookingBean bookingBean) throws BookingException{
+		ModelAndView mAndV = new ModelAndView();
+		customerService.bookRoom(bookingBean);
+		mAndV.addObject("pageHead", "Room is successfully booked.");
+		mAndV.setViewName("Success");
+		return mAndV;
+	}
+	
+	
+	@RequestMapping("/showBookingStatus.do")
+	public ModelAndView showBookingstatus(HttpServletRequest request) throws BookingException{
+		ModelAndView mAndV = new ModelAndView();
+		HttpSession session=request.getSession();
+		UserBean userBean=(UserBean) session.getAttribute("userBean");
+		int userID= userBean.getUserID();
+		List<List<Object>> statusList = customerService.viewBookingStatus(userID);
+		if(statusList.size()>0){
+			mAndV.addObject("statusList",statusList);
+			mAndV.setViewName("BookingStatus");
+		}
+		else{
+			mAndV.addObject("pageHead", "No Bookings found.");
+			mAndV.setViewName("Error");
+		}
 		
+		return mAndV;
+	}
+	
+	
+	@RequestMapping("/logOut.do")
+	public ModelAndView LogOut(){
+		ModelAndView mAndV = new ModelAndView();
+		mAndV.addObject("pageHead", "You have successfully logged out.");
+		mAndV.setViewName("LogOut");
+		return mAndV;
 	}
 	
 	/*@RequestMapping("/getEmpList.do")

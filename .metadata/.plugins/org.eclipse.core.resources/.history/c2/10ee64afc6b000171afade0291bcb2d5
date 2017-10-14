@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+        <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<form:form method="post" action="updateHotelDetails.do">
+			<select>
+					<c:forEach items="${ hotelList }" var="hotel">
+						<option value="${hotel.hotelID }">${hotel.hotelID }</option>
+					</c:forEach>
+			</select>
+	private String city;
+	private String hotelName;
+	private String address;
+	private String description;
+	private float avgRatePerNight;
+	private String phoneNumber1;
+	private String phoneNumber2;
+	private String rating;
+	private String email;
+	private String fax;
+			<select>
+				<option value="1">City</option>
+				<option value="2">Hotel Name</option>
+				<option value="3">Address</option>
+				<option value="4">Description</option>
+				<option value="5">Average Rate Per Night</option>
+				<option value="6"></option>
+				<option value="7"></option>
+				<option value="8"></option>
+				<option value="9"></option>
+				<option value="10"></option>
+			</select>
+		</form:form>
+		
+		
+	</body>
+</html>

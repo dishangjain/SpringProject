@@ -11,14 +11,7 @@
 		<h1>In sign up page</h1>
 
 
-			<form:form method="post" modelAttribute="UserBean" action="addUser.do">
-	  		
-	  			<label for="name">Name :</label>
-		  		<form:input path="name" id="name" type="text"/><br/>
-		  		<input type="submit" value="Submit Details"/>
-			</form:form>
-		
-		<%-- <center>
+		<center>
 			<form:form method="post" modelAttribute="userBean" action="addUser.do">
 	  		
 	  			<label for="name">Name :</label>
@@ -44,7 +37,7 @@
 		  		
 		  		<input type="submit" value="Submit Details"/>
 			</form:form>
-		</center> --%>
+		</center>
 		
 		
 	</body>

@@ -85,7 +85,7 @@ public class RoomBean {
 	}
 	
 	@Column(name="availability")
-	public char isAvailable() {
+	public char getAvailable() {
 		return available;
 	}
 	public void setAvailable(char availability) {

@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		
+		
+	private String email;
+	private String fax;
+		
+		
+		
+		<table border="1">
+			<tr>
+				<th>Hotel ID</th>
+				<th>City</th>
+				<th>Hotel Name</th>
+				<th>Address</th>
+				<th>Description</th>
+				<th>Cost/Night</th>
+				<th>Phone Number 1</th>
+				<th>Phone Number 2</th>
+				<th>Rating</th>
+				<th>Email ID</th>
+				<th></th>
+			</tr>
+			<c:forEach items="${ empList }" var="emp">
+				<tr>
+					<td>${ emp.empNo }</td>
+					<td> ${ emp.empNm }</td>
+					
+				</tr>
+			</c:forEach>
+		</table>
+		<a href="getHomePage.do">Home Page</a>
+		
+		
+	</body>
+</html>

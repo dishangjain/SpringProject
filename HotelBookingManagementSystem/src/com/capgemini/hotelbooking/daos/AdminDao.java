@@ -33,7 +33,7 @@ public class AdminDao implements IAdminDao {
 							+ "\nRoom Number: " + roomBean.getRoomNumber()
 							+ "\nRoom Type : " + roomBean.getRoomType()
 							+ "\nPer Night Rate : " + roomBean.getPerNightRate()
-							+ "\nAvailability : " + roomBean.isAvailable()
+							+ "\nAvailability : " + roomBean.getAvailable()
 							+ "\nPhoto : " + roomBean.getPhoto());
 	}
 
