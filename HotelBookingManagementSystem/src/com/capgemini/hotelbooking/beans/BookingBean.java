@@ -24,8 +24,8 @@ public class BookingBean implements Serializable{
 	private int numAdults;
 	private int numChildren;
 	private float amount;
-	private Date BookedFrom;
-	private Date BookedTo;
+	private Date bookedFrom;
+	private Date bookedTo;
 	private String status;
 	private String firstGuestName;
 	private String secondGuestName;
@@ -40,8 +40,8 @@ public class BookingBean implements Serializable{
 		this.numAdults = numAdults;
 		this.numChildren = numChildren;
 		this.amount = amount;
-		BookedFrom = bookedFrom;
-		BookedTo = bookedTo;
+		this.bookedFrom = bookedFrom;
+		this.bookedTo = bookedTo;
 		this.status = status;
 		this.firstGuestName = firstGuestName;
 		this.secondGuestName = secondGuestName;
@@ -104,19 +104,19 @@ public class BookingBean implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(name="BOOKED_FROM")
 	public Date getBookedFrom() {
-		return BookedFrom;
+		return bookedFrom;
 	}
 	public void setBookedFrom(Date bookedFrom) {
-		BookedFrom = bookedFrom;
+		this.bookedFrom = bookedFrom;
 	}
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="BOOKED_TO")
 	public Date getBookedTo() {
-		return BookedTo;
+		return bookedTo;
 	}
 	public void setBookedTo(Date bookedTo) {
-		BookedTo = bookedTo;
+		this.bookedTo = bookedTo;
 	}
 
 	public String getStatus() {
@@ -149,7 +149,7 @@ public class BookingBean implements Serializable{
 		return "Booking(Booking Reference Number=" + bookingID + ", RoomID=" + roomID
 				+ ", UserID=" + userID + ", Number of adults=" + numAdults
 				+ ", Number of children=" + numChildren + ", Total amount per room=" + amount
-				+ ", Booking From=" + BookedFrom + ", Booking Upto=" + BookedTo + ", Booking Status=" + status + ", First Guest Name=" + firstGuestName + ", Second Guest Name=" + secondGuestName + ")\n";
+				+ ", Booking From=" + bookedFrom + ", Booking Upto=" + bookedTo + ", Booking Status=" + status + ", First Guest Name=" + firstGuestName + ", Second Guest Name=" + secondGuestName + ")\n";
 	}
 	
 }

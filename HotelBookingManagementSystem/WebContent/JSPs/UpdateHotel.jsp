@@ -11,12 +11,14 @@
 	</head>
 	<body>
 		<form:form method="post" action="updateHotelDetails.do">
-			<select name="hotelID">
+			<label for="hotelID">Hotel Name</label>
+			<select name="hotelID" >
 					<c:forEach items="${ hotelList }" var="hotel">
 						<option value="${hotel.hotelID }">${hotel.hotelName }</option>
 					</c:forEach>
 			</select>
 			<br>
+			<label for="attributeOption" >Options</label>
 			<select name="attributeOption">
 				<option value="1">City</option>
 				<option value="2">Hotel Name</option>
@@ -31,7 +33,8 @@
 			</select>
 			<br>
 			
-			Enter Value : <input name="attributeValue" type="text">
+			<label for="attributeValue">Enter Value : </label>
+			<input name="attributeValue" type="text">
 			
 			<input type="submit" value="Confirm Changes"/>
 			

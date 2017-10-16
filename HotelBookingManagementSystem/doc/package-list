@@ -1,0 +1,6 @@
+com.capgemini.hotelbooking.beans
+com.capgemini.hotelbooking.controllers
+com.capgemini.hotelbooking.daos
+com.capgemini.hotelbooking.exceptions
+com.capgemini.hotelbooking.loggers
+com.capgemini.hotelbooking.services

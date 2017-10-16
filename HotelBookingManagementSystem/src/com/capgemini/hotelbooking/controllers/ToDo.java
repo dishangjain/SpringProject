@@ -9,4 +9,10 @@ public class ToDo {
 	//TODO validations according to length constraint in database
 	//TODO implement error page properly
 	//TODO implement view booking status properly
+	//TODO Documentation of all meeting minutes
+	//TODO Search by available date of booking along with city
+	//TODO pseudo email validation
+	//TODO edit a booking, cancel booking
+	//TODO use constants for active and roles
+	//TODO comments alt+shift+j 
 }

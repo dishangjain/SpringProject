@@ -10,8 +10,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +40,23 @@ public class HotelBookingController {
 	private ICustomerService customerService;
 	
 	//ConstructionPURPOSE
+	/**
+	 * @return
+	 */
+	/**
+	 * @return
+	 */
+	/**
+	 * @return
+	 */
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+    }
+	
 	@RequestMapping("/getNullPage.do")
 	public ModelAndView getNullPage() {
 		ModelAndView mAndV = new ModelAndView();
@@ -139,7 +159,7 @@ public class HotelBookingController {
 		hotelBean.setStatus("active");
 		adminService.addHotelDetails(hotelBean);
 		mAndV.addObject("hotelBean", hotelBean);
-		mAndV.addObject("pageHead",hotelBean.getHotelName()+"Hotel is registered successfully.");
+		mAndV.addObject("pageHead",hotelBean.getHotelName()+" Hotel is registered successfully.");
 		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
@@ -159,7 +179,7 @@ public class HotelBookingController {
 	public ModelAndView updateHotelDetails(@RequestParam("hotelID") int hotelID,@RequestParam("attributeOption") int attributeOption,@RequestParam("attributeValue") String attributeValue) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateHotelDetails(hotelID, attributeOption, attributeValue);
-		mAndV.addObject("pageHead","Hotel with hotel ID"+ hotelID +" is successfully Updated.");
+		mAndV.addObject("pageHead","Hotel with hotel ID "+ hotelID +" is successfully Updated.");
 		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
@@ -204,7 +224,7 @@ public class HotelBookingController {
 		roomBean.setStatus("active");
 		adminService.addRoomDetails(roomBean);
 		
-		mAndV.addObject("pageHead","Room with room ID"+ roomBean.getRoomID() +" is successfully added.");
+		mAndV.addObject("pageHead","Room with room ID "+ roomBean.getRoomID() +" is successfully added.");
 		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
@@ -230,7 +250,7 @@ public class HotelBookingController {
 			) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		adminService.updateRoomDetails(roomID, attributeOption, attributeValue);
-		mAndV.addObject("pageHead","Room with room ID"+ roomID +" is Updated");
+		mAndV.addObject("pageHead","Room with room ID "+ roomID +" is Updated");
 		mAndV.addObject("home","getAdminPage.do");
 		mAndV.setViewName("Success");				
 		return mAndV;
@@ -272,8 +292,10 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping("/getHotelById.do")
-	public ModelAndView getHotelByIdJsp(){
+	public ModelAndView getHotelById() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
+		List<HotelBean> hotelList = commonService.retrieveHotels(); 
+		mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("HotelBookingListID");
 		return mAndV;
 	}
@@ -282,13 +304,22 @@ public class HotelBookingController {
 	public ModelAndView hotelBookingByID(@RequestParam("hotelID") int hotelID) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		List<BookingBean> bookingList = adminService.viewBookingsOfHotel(hotelID);
-		mAndV.addObject("BookingList", bookingList);
-		mAndV.setViewName("ViewBookingHotelID");				
+		if(bookingList.size()>0)
+		{
+			mAndV.addObject("bookingList", bookingList);
+			mAndV.addObject("home","getAdminPage.do");
+			mAndV.setViewName("ViewBookingHotelID");
+		}
+		else{
+			mAndV.addObject("pageHead", "No Bookings found.");
+			mAndV.addObject("home","getAdminPage.do");
+			mAndV.setViewName("ErrorPage");
+		}
 		return mAndV;
 	}
 	
-	@RequestMapping("/getHotelByDate.do")
-	public ModelAndView getHotelByDateJsp(){
+	@RequestMapping("/getBookingsByDate.do")
+	public ModelAndView getHotelByDate() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("HotelBookingListDate");
 		return mAndV;
@@ -297,16 +328,27 @@ public class HotelBookingController {
 	@RequestMapping(value="/hotelBookingByDate.do", method=RequestMethod.POST )
 	public ModelAndView hotelBookingByDate(@RequestParam("date") String date) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		DateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date bookingDate = null;
 		try {
 			bookingDate = formatter.parse(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			mAndV.addObject("pageHead", "Enter Valid Date Format. ");
+			mAndV.addObject("home","getAdminPage.do");
+			mAndV.setViewName("ErrorPage");
 		}
 		List<BookingBean> bookingList = adminService.viewBookingsOfDate(bookingDate);
-		mAndV.addObject("BookingList", bookingList);
-		mAndV.setViewName("ViewBookingHotelID");				
+		if(bookingList.size()>0)
+		{
+			mAndV.addObject("bookingList", bookingList);
+			mAndV.addObject("home","getAdminPage.do");
+			mAndV.setViewName("ViewBookingHotelID");
+		}
+		else{
+			mAndV.addObject("pageHead", "No Bookings found.");
+			mAndV.addObject("home","getAdminPage.do");
+			mAndV.setViewName("ErrorPage");
+		}			
 		return mAndV;
 	}
 	
@@ -336,7 +378,7 @@ public class HotelBookingController {
 	@RequestMapping("/searchHotels.do")
 	public ModelAndView searchHotels(@RequestParam("city") String city) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
-		List<RoomBean> roomList=customerService.searchAvailableRooms(city);
+		List<RoomBean> roomList = customerService.searchAvailableRooms(city.toLowerCase());
 		if(roomList.size()>0)
 		{
 			mAndV.addObject("roomList", roomList);
@@ -344,6 +386,7 @@ public class HotelBookingController {
 		}
 		else{
 			mAndV.addObject("pageHead", "No rooms found.");
+			mAndV.addObject("home","getCustomerPage.do");
 			mAndV.setViewName("ErrorPage");
 		}
 		return mAndV;
@@ -354,7 +397,7 @@ public class HotelBookingController {
 		ModelAndView mAndV = new ModelAndView();
 		BookingBean bookingBean = new BookingBean();
 		mAndV.addObject("bookingBean", bookingBean);
-		HttpSession session=request.getSession();
+		HttpSession session=request.getSession(false);
 		UserBean userBean=(UserBean) session.getAttribute("userBean");
 		int userID= userBean.getUserID();
 		mAndV.addObject("userID", userID);
@@ -363,11 +406,13 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping(value="/bookRoomRequest.do",  method=RequestMethod.POST)
+	@RequestMapping(value="/insertBookingDetails.do",method=RequestMethod.POST)
 	public ModelAndView bookRoom(@ModelAttribute("bookingBean") BookingBean bookingBean) throws BookingException{
+		System.out.println(bookingBean);
 		ModelAndView mAndV = new ModelAndView();
 		customerService.bookRoom(bookingBean);
 		mAndV.addObject("pageHead", "Room is successfully booked.");
+		mAndV.addObject("home","getCustomerPage.do");
 		mAndV.setViewName("Success");
 		return mAndV;
 	}
@@ -380,13 +425,15 @@ public class HotelBookingController {
 		UserBean userBean=(UserBean) session.getAttribute("userBean");
 		int userID= userBean.getUserID();
 		List<List<Object>> statusList = customerService.viewBookingStatus(userID);
-		System.out.println(statusList);
+		
 		if(statusList.size()>0){
 			mAndV.addObject("statusList",statusList);
 			mAndV.setViewName("BookingStatus");
 		}
 		else{
+			
 			mAndV.addObject("pageHead", "No Bookings found.");
+			mAndV.addObject("home","getCustomerPage.do");
 			mAndV.setViewName("ErrorPage");
 		}
 		

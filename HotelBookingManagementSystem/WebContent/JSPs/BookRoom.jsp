@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
         <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,9 +10,11 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
+	
+		
 		
 		<center>
-			<form:form method="post" modelAttribute="bookingBean" action="bookRoomRequest.do">
+			<form:form method="post" modelAttribute="bookingBean" action="insertBookingDetails.do">
 	  		
 	  			<label for="firstGuestName">First Guest Name :</label>
 		  		<form:input path="firstGuestName" id="firstGuestName" type="text"/><br/>
@@ -29,13 +32,18 @@
 		  		<form:input path="numAdults" id="numAdults" type="number"/><br/>
 		  		
 		  		<label for="numChildren">Number of Children :</label>
-		  		<form:input path="numChildren" id="numChildren" type="text"/><br/>
+		  		<form:input path="numChildren" id="numChildren" type="number"/><br/>
 		  		
-		  		<label for="BookedFrom">Booked From :</label>
-		  		<form:input path="BookedFrom" id="BookedFrom" type="date"/><br/>
+		  		<label for="bookedFrom">Booked From :</label>
+		  		<%-- <fmt:formatDate value="${bookingBean.bookedFrom }" var="dateString" pattern="dd/MM/yyyy"/> --%>
+		  		<%-- <form:input type="text" class="date" path="bookedFrom" id="bookedFrom"/><br/> --%>
 		  		
-		  		<label for="BookedTo">Booked To :</label>
-		  		<form:input path="BookedTo" id="BookedTo" type="date"/><br/>
+		  		<%-- <label for="bookedTo">Booked To :</label>
+		  		<fmt:formatDate value="${bookingBean.bookedTo }" var="dateString" pattern="dd/MM/yyyy"/>
+		  		<form:input path="bookedTo" value="${dateString }" id="bookedTo" type="date"/><br/>
+		  		 --%>
+		  		
+		  		<input type="text" path="bookedFrom" class= "date" name = "bookedFrom" value = "<fmt:formatDate value='${bookingBean.bookedFrom}' pattern='dd-MM-yyyy' />" />
 		  		
 		  		<input type="submit" value="Confirm Booking"/>
 			</form:form>

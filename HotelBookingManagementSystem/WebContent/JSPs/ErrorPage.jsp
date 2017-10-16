@@ -11,7 +11,7 @@
 		<h3>${pageHead }</h3>
 		
 		<br>
-		<a href="getHomePage.do"> Home Page</a>
+		<a href="${ home }"> Home Page</a>
 		
 	</body>
 </html>

@@ -153,12 +153,15 @@ public class AdminDao implements IAdminDao {
 		myLogger.info("Bookings retrieved for hotel with hotelID = " + hotelID + " are : \n" + bookingList);
 		return bookingList;
 	}
+	
 
 	@Override
 	public List<BookingBean> viewBookingsOfDate(Date date) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in getBookingsOfDate()");
-		String query = "SELECT b FROM BookingBean b WHERE :date BETWEEN b.bookedFrom AND b.bookedTo";
+		String query = "select b from BookingBean b where b.bookedFrom <= :date"
+				+ " and b.bookedTo >= :date";
+		
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("date", date);
 		bookingList = qry.getResultList();
@@ -166,6 +169,10 @@ public class AdminDao implements IAdminDao {
 		return bookingList;
 	}
 
+	/**
+	 * @param hotelID
+	 * @throws BookingException
+	 */
 	@Override
 	public void deleteHotelDetails(int hotelID) throws BookingException {
 		myLogger.info("Execution in deleteHotelDetails()");

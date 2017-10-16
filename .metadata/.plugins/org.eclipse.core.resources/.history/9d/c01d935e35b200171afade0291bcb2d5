@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Your bookings</title>
+	</head>
+	<body>
+	
+	
+	
+	[[Booking(Booking Reference Number=100, RoomID=150, UserID=100, Number of adults=2, Number of children=0,
+	 Total amount per room=100.0, Booking From=2017-10-17, Booking Upto=2017-10-19, Booking Status=active,
+	  First Guest Name=amit, Second Guest Name=sumit) , Room(Hotel ID=100, Room ID=150, Room number=100,
+	   Room type=AC Deluxe, rate/night=2000.0, availability=T, Room Status=active) , Hotel(Hotel ID=100,
+	    City=Dubai, Hotel name=Burj Khalifa, Address=sdhbcsjdhvb, Description=Mast Hotel, Average cost of a room=1000.3,
+	     Phone number 1=8787878727, Phone number 2=5625625652, Rating=4.9, Email=mm@travellerbuddy.com, Fax=000069,
+	      Affliation Status=active) ]]
+	
+	
+			<table border="1">
+			<tr>
+				<th>Booking Reference Number</th>
+				<th>City</th>
+				<th>Hotel Name</th>
+				<th>Address</th>
+				<th>Room Number</th>
+				<th>Cost/Night</th>
+				<th>Total Amount</th>
+				<th>Booking Status</th>
+				<th>User Name</th>
+				<th>First Guest Reference</th>
+				<th>Second Guest Reference</th>
+				<th>Hotel Contact</th>
+			</tr>
+			<c:forEach items="${hotelList }" var="hotel">
+				<tr>
+					<td>${hotel.hotelID }</td>
+					<td>${hotel.city }</td>
+					<td>${hotel.hotelName }</td>
+					<td>${hotel.address }</td>
+					<td>${hotel.description }</td>
+					<td>${hotel.avgRatePerNight }</td>
+					<td>${hotel.phoneNumber1 }</td>
+					<td>${hotel.phoneNumber2 }</td>
+					<td>${hotel.rating }</td>
+					<td>${hotel.email }</td>
+					<td>${hotel.fax }</td>
+					
+				</tr>
+			</c:forEach>
+		</table>
+	</body>
+</html>
