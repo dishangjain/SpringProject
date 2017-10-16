@@ -311,7 +311,7 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping("/getHotelByID.do")
-	public ModelAndView getHotelByIDJsp(){
+	public ModelAndView getHotelByID(){
 		ModelAndView mAndV = new ModelAndView();
 		mAndV.setViewName("GuestList");
 		return mAndV;
@@ -323,7 +323,7 @@ public class HotelBookingController {
 		List<UserBean> guestList=adminService.viewGuestList(hotelID);
 		mAndV.addObject("guestList", guestList);
 		mAndV.setViewName("GuestList");
-		return mAndV;	
+		return mAndV;
 	}
 	
 	@RequestMapping("/getCity.do")
@@ -339,18 +339,18 @@ public class HotelBookingController {
 		List<RoomBean> roomList=customerService.searchAvailableRooms(city);
 		if(roomList.size()>0)
 		{
-		mAndV.addObject("roomList", roomList);
-		mAndV.setViewName("Roomdetails");
+			mAndV.addObject("roomList", roomList);
+			mAndV.setViewName("Roomdetails");
 		}
 		else{
 			mAndV.addObject("pageHead", "No rooms found.");
-			mAndV.setViewName("Error");
+			mAndV.setViewName("ErrorPage");
 		}
 		return mAndV;
 	}
 	
 	@RequestMapping("/bookRoom.do")
-	public ModelAndView bookRoom(HttpServletRequest request,@RequestParam("roomID") String roomID){
+	public ModelAndView bookRoom(HttpServletRequest request,@RequestParam("roomID") int roomID){
 		ModelAndView mAndV = new ModelAndView();
 		BookingBean bookingBean = new BookingBean();
 		mAndV.addObject("bookingBean", bookingBean);
@@ -363,7 +363,7 @@ public class HotelBookingController {
 		return mAndV;
 	}
 	
-	@RequestMapping(value="/bookRoom.do",  method=RequestMethod.POST)
+	@RequestMapping(value="/bookRoomRequest.do",  method=RequestMethod.POST)
 	public ModelAndView bookRoom(@ModelAttribute("bookingBean") BookingBean bookingBean) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		customerService.bookRoom(bookingBean);
@@ -380,13 +380,14 @@ public class HotelBookingController {
 		UserBean userBean=(UserBean) session.getAttribute("userBean");
 		int userID= userBean.getUserID();
 		List<List<Object>> statusList = customerService.viewBookingStatus(userID);
+		System.out.println(statusList);
 		if(statusList.size()>0){
 			mAndV.addObject("statusList",statusList);
 			mAndV.setViewName("BookingStatus");
 		}
 		else{
 			mAndV.addObject("pageHead", "No Bookings found.");
-			mAndV.setViewName("Error");
+			mAndV.setViewName("ErrorPage");
 		}
 		
 		return mAndV;

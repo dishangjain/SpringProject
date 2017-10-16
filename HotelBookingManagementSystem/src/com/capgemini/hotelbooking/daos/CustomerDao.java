@@ -78,7 +78,7 @@ public class CustomerDao implements ICustomerDao {
 		List<RoomBean> roomList = new ArrayList<RoomBean>();
 		updateAvailabilityAfterCheckout();
 		myLogger.info("Execution in searchAvailableRooms()");
-		String query = "SELECT r FROM RoomBean r where r.available='T' AND r.status='active' AND r.hotelID in (select h.hotelID from HotelBean where LOWER(city) = :city AND h.status='active') ";
+		String query = "SELECT r FROM RoomBean r where r.available='T' AND r.status='active' AND r.hotelID in (select h.hotelID from HotelBean h where LOWER(city) = :city AND h.status='active') ";
 		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
 		qry.setParameter("city", city);
 		roomList = qry.getResultList();

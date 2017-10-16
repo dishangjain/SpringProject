@@ -21,7 +21,7 @@
 			<a href="viewAllHotels.do">View all Hotels</a><br>
 			<a href="getNullPage.do">View Bookings of Hotels by ID</a><br>
 			<a href="getNullPage.do">View Bookings of Hotels By Date</a><br>
-			<a href="getNullPage.do">Log Out</a>
+			<a href="logOut.do">Log Out</a>
 		</div>
 		
 		
