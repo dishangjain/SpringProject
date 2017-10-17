@@ -3,17 +3,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Travel-R bUddY</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body>
-		<h1>In Login Page</h1>
-		<form action="getFunctionalities.do" method="post">
-			Username: <input type="text" name="userName"> <br>
-			Password: <input type="password" name="password"><br>
-			<input type="submit" value="Enter">
 		
+		<jsp:include page="header.jsp"></jsp:include>
+		<br><br>
+		
+		<form method="post" action="getFunctionalities.obj">
+			<div class="row uniform">
+				<div class="6u 12u$(xsmall)">
+					<input type="text" name="userName" id="userName" value="" placeholder="Enter User Name" />
+				</div>
+				<div class="6u 12u$(xsmall)">
+					<input type="password" name="password" id="password" value="" placeholder="Enter Password" />
+				</div>
+				<div class="12u$" align="center">
+					<ul class="actions">
+						<li><input type="submit" value="Sign In" class="special" /></li>
+						<li><input type="reset" value="Reset" /></li>
+					</ul>
+				</div>
+			</div>
 		</form>
+		<div class="box alt">
+			<div class="row uniform">
+				<div class="4u"><span class="image fit"><img src="images/pic02.jpeg" alt="" /></span></div>
+				<div class="4u"><span class="image fit"><img src="images/pic03.jpeg" alt="" /></span></div>
+				<div class="4u"><span class="image fit"><img src="images/pic01.jpeg" alt="" /></span></div>
+			</div>
+		</div>
+			<jsp:include page="footer.jsp"></jsp:include>
+			<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
 		
 	</body>
 </html>

@@ -6,15 +6,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Travel-R bUddY</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body>
-	
-		
-		
+		<jsp:include page="header.jsp"></jsp:include>
 		<center>
-			<form:form method="post" modelAttribute="bookingBean" action="insertBookingDetails.do">
+			<form:form method="post" modelAttribute="bookingBean" action="insertBookingDetails.obj">
 	  		
 	  			<label for="firstGuestName">First Guest Name :</label>
 		  		<form:input path="firstGuestName" id="firstGuestName" type="text"/><br/>
@@ -29,28 +29,14 @@
 		  		<form:input path="userID" id="userID" type="text" value="${userID }"/><br/>
 		  		
 		  		<label for="numAdults">Number of Adults :</label>
-		  		<form:input path="numAdults" id="numAdults" type="number"/><br/>
+		  		<form:input path="numAdults" id="numAdults" type="text"/><br/>
 		  		
 		  		<label for="numChildren">Number of Children :</label>
-		  		<form:input path="numChildren" id="numChildren" type="number"/><br/>
-		  		
-		  		<label for="bookedFrom">Booked From :</label>
-		  		<%-- <fmt:formatDate value="${bookingBean.bookedFrom }" var="dateString" pattern="dd/MM/yyyy"/> --%>
-		  		<%-- <form:input type="text" class="date" path="bookedFrom" id="bookedFrom"/><br/> --%>
-		  		
-		  		<%-- <label for="bookedTo">Booked To :</label>
-		  		<fmt:formatDate value="${bookingBean.bookedTo }" var="dateString" pattern="dd/MM/yyyy"/>
-		  		<form:input path="bookedTo" value="${dateString }" id="bookedTo" type="date"/><br/>
-		  		 --%>
-		  		
-		  		<input type="text" path="bookedFrom" class= "date" name = "bookedFrom" value = "<fmt:formatDate value='${bookingBean.bookedFrom}' pattern='dd-MM-yyyy' />" />
+		  		<form:input path="numChildren" id="numChildren" type="text"/><br/>
 		  		
 		  		<input type="submit" value="Confirm Booking"/>
 			</form:form>
 		</center>
-		
-		
-		
-		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

@@ -4,14 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
-		<script type="text/javascript" src="scripts/jquery-1.12.3.js"></script>
-		<script type="text/javascript" src="scripts/MyJsLib.js"></script>
+		<title>Travel-R bUddY</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body>
-
-		
+		<jsp:include page="header.jsp"></jsp:include>
 		<table border="1">
 			<tr>
 				<th>Hotel ID</th>
@@ -39,12 +38,9 @@
 					<td>${hotel.rating }</td>
 					<td>${hotel.email }</td>
 					<td>${hotel.fax }</td>
-					
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="getAdminPage.do">Home Page</a>
-		
-		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

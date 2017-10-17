@@ -15,4 +15,8 @@ public class ToDo {
 	//TODO edit a booking, cancel booking
 	//TODO use constants for active and roles
 	//TODO comments alt+shift+j 
+	//TODO make the input fields small
+	//TODO convert table into list
+	//TODO session handling
+	//TODO booking method
 }

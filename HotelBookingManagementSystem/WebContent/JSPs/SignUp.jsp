@@ -4,15 +4,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Travel-R bUddY</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body>
-		<h1>In sign up page</h1>
-
-
+		<jsp:include page="header.jsp"></jsp:include>
 		<center>
-			<form:form method="post" modelAttribute="userBean" action="addUser.do">
+			<form:form method="post" modelAttribute="userBean" action="addUser.obj">
 	  		
 	  			<label for="name">Name :</label>
 		  		<form:input path="name" id="name" type="text"/><br/>
@@ -38,7 +38,6 @@
 		  		<input type="submit" value="Submit Details"/>
 			</form:form>
 		</center>
-		
-		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>
