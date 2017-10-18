@@ -11,29 +11,26 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
+		<br/>
 		<table border="1">
 			<tr>
-				<th>Hotel ID</th>
-				<th>Room ID</th>
-				<th>Room Number</th>
+				<th>Hotel Name</th>
+				<th>Rating</th>
 				<th>Room Type</th>
 				<th>Cost/Night</th>
-				<th>Available</th>
-				<th>Photo</th>
-				<th>Status</th>
 				<th>Booking Link</th>
 			</tr>
-			<c:forEach items="${roomList }" var="room">
+			<c:forEach items="${ roomList }" var="room">
 				<tr>
-					<td>${room.hotelID }</td>
-					<td>${room.roomID }</td>
-					<td>${room.roomNumber }</td>
-					<td>${room.roomType }</td>
-					<td>${room.perNightRate }</td>
-					<td>${room.available }</td>
-					<td>${room.photo }</td>
-					<td>${room.status }</td>
-					<td><a href="bookRoom.obj?roomID=${room.roomID }">Book Now</a></td>
+					<c:forEach items="${ hotelList }" var="hotel">
+						<c:if test="${ room.hotelID eq hotel.hotelID }">
+							<td>${ hotel.hotelName }</td>
+							<td>${ hotel.rating }</td>
+						</c:if>
+					</c:forEach>
+					<td>${ room.roomType }</td>
+					<td>${ room.perNightRate }</td>
+					<td><a href="bookRoom.obj?roomID=${ room.roomID }">Book Now</a></td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -12,14 +12,17 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" action="deleteHotelDetails.obj">
-			<select name="hotelID">
-					<c:forEach items="${ hotelList }" var="hotel">
-						<option value="${hotel.hotelID }">${hotel.hotelName }</option>
-					</c:forEach>
-			</select>
-			<input type="submit" value="Delete Hotel"/>
-		</form:form>
+		<center>
+			<form:form method="post" action="deleteHotelDetails.obj">
+				<label>Hotel to be Deleted</label>
+				<select name="hotelID" required="true">
+						<c:forEach items="${ hotelList }" var="hotel">
+							<option value="${hotel.hotelID }">${hotel.hotelName }</option>
+						</c:forEach>
+				</select><br>
+				<input type="submit" value="Delete Hotel"/>
+			</form:form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

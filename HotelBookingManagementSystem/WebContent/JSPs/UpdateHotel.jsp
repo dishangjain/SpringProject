@@ -10,35 +10,39 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="assets/js/hotelUpdation.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" action="updateHotelDetails.obj">
-			<label for="hotelID">Hotel Name</label>
-			<select name="hotelID" >
-					<c:forEach items="${ hotelList }" var="hotel">
-						<option value="${hotel.hotelID }">${hotel.hotelName }</option>
-					</c:forEach>
-			</select>
-			<br>
-			<label for="attributeOption" >Options</label>
-			<select name="attributeOption">
-				<option value="1">City</option>
-				<option value="2">Hotel Name</option>
-				<option value="3">Address</option>
-				<option value="4">Description</option>
-				<option value="5">Average Rate Per Night</option>
-				<option value="6">PhoneNumber1</option>
-				<option value="7">PhoneNumber2</option>
-				<option value="8">Rating</option>
-				<option value="9">Email ID</option>
-				<option value="10">Fax</option>
-			</select>
-			<br>
-			<label for="attributeValue">Enter Value : </label>
-			<input name="attributeValue" type="text">
-			<input type="submit" value="Confirm Changes"/>
-		</form:form>
+		<center>
+			<form:form method="post" action="updateHotelDetails.obj">
+				<label for="hotelID">Hotel Name</label>
+				<select name="hotelID" required="true">
+						<c:forEach items="${ hotelList }" var="hotel">
+							<option value="${hotel.hotelID }">${hotel.hotelName }</option>
+						</c:forEach>
+				</select>
+				<br>
+				<label for="attributeOption" >Options</label>
+				<select name="attributeOption" onchange="addValueBox()" required="true">
+					<option value="1">City</option>
+					<option value="2">Hotel Name</option>
+					<option value="3">Address</option>
+					<option value="4">Description</option>
+					<option value="5">Average Rate Per Night</option>
+					<option value="6">PhoneNumber1</option>
+					<option value="7">PhoneNumber2</option>
+					<option value="8">Rating</option>
+					<option value="9">Email ID</option>
+					<option value="10">Fax</option>
+				</select>
+				<p id="p">
+					<label for="attributeValue">Enter Value : </label>
+					<input name="attributeValue" type="text" required="true">
+				</p>
+				<input type="submit" value="Confirm Changes"/>
+			</form:form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

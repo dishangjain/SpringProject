@@ -10,9 +10,20 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<div id="mainMenu">
-			<a href="getCity.obj">Search Hotels</a><br>
-			<a href="showBookingStatus.obj">View Booking Status</a><br>
+		<div class="row" >
+			<div class="6u 12u$(medium)">
+				<ul class="alt">
+					<li><a href="getCity.obj">Search Hotels</a></li>
+					<li><a href="showBookingStatus.obj">View Booking Status</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="row uniform">
+			<p>
+				<span class="image left"><img src="images/hotel03.jpeg" alt="" /></span>
+				Greetings from Travel-R bUddY. Explore warm hospitality and Quality served here at reasonable rates.  
+			</p>
 		</div>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>

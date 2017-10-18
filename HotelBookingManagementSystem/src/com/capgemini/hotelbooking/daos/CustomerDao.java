@@ -33,9 +33,18 @@ public class CustomerDao implements ICustomerDao {
 				+ "availability : " + 'F');
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void bookRoom(BookingBean bookingBean) throws BookingException {
 		myLogger.info("Execution in bookRoom()");
+		int roomID = bookingBean.getRoomID();
+		String query = "Select r.perNightRate from RoomBean r where r.roomID= :roomID";
+		TypedQuery<Float> qry = entityManager.createQuery(query, Float.class);
+		qry.setParameter("roomID", roomID);
+		float perNightRate = qry.getSingleResult();
+		int period =  bookingBean.getBookedTo().getDate() - bookingBean.getBookedFrom().getDate();
+		bookingBean.setAmount(perNightRate * period);
+		bookingBean.setStatus("active");
 		entityManager.persist(bookingBean);
 		myLogger.info("New Entry -> Booking ID : "+ bookingBean.getBookingID()
 					+ "\nRoom ID : " + bookingBean.getRoomID()
@@ -52,7 +61,6 @@ public class CustomerDao implements ICustomerDao {
 	public List<List<Object>> viewBookingStatus(int userId) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in viewBookingStatus()");
-		updateAvailabilityAfterCheckout();
 		String query = "SELECT b FROM BookingBean b WHERE b.userID = :userId AND b.status='active'";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("userId", userId);
@@ -74,15 +82,20 @@ public class CustomerDao implements ICustomerDao {
 	}
 
 	@Override
-	public List<RoomBean> searchAvailableRooms(String city) throws BookingException {
+	public List<RoomBean> searchAvailableRooms(String city,Date checkinDate,Date checkoutDate) throws BookingException {
 		List<RoomBean> roomList = new ArrayList<RoomBean>();
 		updateAvailabilityAfterCheckout();
 		myLogger.info("Execution in searchAvailableRooms()");
-		String query = "SELECT r FROM RoomBean r where r.available='T' AND r.status='active' AND r.hotelID in (select h.hotelID from HotelBean h where LOWER(city) = :city AND h.status='active') ";
+		String query = " SELECT r FROM RoomBean r  WHERE r.status='active' AND r.hotelID in"
+				+ " (select h.hotelID from HotelBean h where LOWER(h.city) = :city AND h.status='active')"
+				+ " AND r.roomID not in (select bb.roomID from BookingBean bb"
+				+ " WHERE  bb.bookedFrom <= :checkinDate and bb.bookedTo >= :checkinDate) ";
 		TypedQuery<RoomBean> qry = entityManager.createQuery(query, RoomBean.class);
 		qry.setParameter("city", city);
+		qry.setParameter("checkinDate", checkinDate);
 		roomList = qry.getResultList();
 		return roomList;
+		
 	}
 
 	@Override

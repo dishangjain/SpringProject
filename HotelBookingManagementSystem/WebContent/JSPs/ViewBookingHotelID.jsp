@@ -11,6 +11,7 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
+		<br/>
 		<table border="1">
 			<tr>
 				<th>Booking ID</th>

@@ -13,14 +13,17 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" action="deleteRoom.obj">
-			<select name="roomID">
-					<c:forEach items="${roomList }" var="room">
-						<option value="${room.roomID }">${room.roomID }</option>
-					</c:forEach>
-			</select>
-		<input type="submit" value="Delete Room"/>
-		</form:form>
+		<center>
+			<form:form method="post" action="deleteRoom.obj">
+				<label>Room to be Deleted</label><br/>
+				<select name="roomID" required="true">
+						<c:forEach items="${roomList }" var="room">
+							<option value="${room.roomID }">${room.roomID }</option>
+						</c:forEach>
+				</select><br>
+			<input type="submit" value="Delete Room"/>
+			</form:form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

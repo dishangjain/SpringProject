@@ -1,5 +1,6 @@
 package com.capgemini.hotelbooking.services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -108,8 +109,8 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public List<RoomBean> searchAvailableRooms(String city) throws BookingException {
-		return dao.searchAvailableRooms(city);
+	public List<RoomBean> searchAvailableRooms(String city,Date bookedFrom,Date bookedTo) throws BookingException {
+		return dao.searchAvailableRooms(city,bookedFrom,bookedTo);
 	}
 
 	@Override

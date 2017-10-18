@@ -14,12 +14,15 @@
 		<br><br>
 		
 		<form method="post" action="getFunctionalities.obj">
-			<div class="row uniform">
+			<center><h4>${ invalidMessage }</h4></center>
+			<div class="row uniform" align="center">
 				<div class="6u 12u$(xsmall)">
-					<input type="text" name="userName" id="userName" value="" placeholder="Enter User Name" />
+					<label for="userName">User Name : </label>
+					<input type="text" name="userName" id="userName" placeholder="Enter User Name" pattern="[A-Za-z0-9 ]{6,15}"  required="true"/>
 				</div>
 				<div class="6u 12u$(xsmall)">
-					<input type="password" name="password" id="password" value="" placeholder="Enter Password" />
+					<label for="password">Password : </label>
+					<input type="password" name="password" id="password" placeholder="Enter Password" maxlength="32" required="true"/>
 				</div>
 				<div class="12u$" align="center">
 					<ul class="actions">

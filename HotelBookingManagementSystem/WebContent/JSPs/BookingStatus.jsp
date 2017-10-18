@@ -11,6 +11,7 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
+		<br/><br/>
 			<table border="1">
 			<tr>
 				<th>Booking Reference Number</th>
@@ -25,7 +26,6 @@
 				<th>First Guest Reference</th>
 				<th>Second Guest Reference</th>
 				<th>Hotel Contact</th>
-				<th>Booking Status</th>
 			</tr>
 			<c:forEach items="${ statusList }" var="sl">
 				<tr>
@@ -41,7 +41,6 @@
 					<td>${ sl.get(0).firstGuestName }</td>
 					<td>${ sl.get(0).secondGuestName }</td>
 					<td>${ sl.get(2).phoneNumber1 }</td>
-					<td>${ sl.get(0).status }</td>
 				</tr>
 			</c:forEach>
 		</table>

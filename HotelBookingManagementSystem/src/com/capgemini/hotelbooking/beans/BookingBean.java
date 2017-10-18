@@ -52,7 +52,7 @@ public class BookingBean implements Serializable{
 	}
 	
 	@Id
-	@SequenceGenerator(name="booking_id_seq",sequenceName="booking_id_seq")
+	@SequenceGenerator(name="booking_id_seq",sequenceName="booking_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="booking_id_seq")
 	@Column(name="BOOKING_ID")
 	public int getBookingID() {

@@ -50,7 +50,7 @@ public class RoomBean {
 	}
 	
 	@Id
-	@SequenceGenerator(name="room_id_seq",sequenceName="room_id_seq")
+	@SequenceGenerator(name="room_id_seq",sequenceName="room_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="room_id_seq")
 	@Column(name="ROOM_ID")
 	public int getRoomID() {

@@ -15,25 +15,25 @@
 			<form:form method="post" modelAttribute="userBean" action="addUser.obj">
 	  		
 	  			<label for="name">Name :</label>
-		  		<form:input path="name" id="name" type="text"/><br/>
+		  		<form:input path="name" id="name" type="text" pattern="[A-Za-z ]{3,20}"  required="true"/><br/>
 		  		
 		  		<label for="userName">User Name :</label>
-		  		<form:input path="userName" id="userName" type="text"/><br/>
+		  		<form:input path="userName" id="userName" type="text" pattern="[A-Za-z0-9 ]{6,15}"  required="true"/><br/>
 	  			
 		  		<label for="password">Password :</label>
-		  		<form:input path="password" id="password" type="password"/><br/>
+		  		<form:input path="password" id="password" type="password" required="true"/><br/>
 		  		
 		  		<label for="mobileNumber">Mobile Number :</label>
-		  		<form:input path="mobileNumber" id="mobileNumber" type="text"/><br/>
+		  		<form:input path="mobileNumber" id="mobileNumber" type="text" pattern="[7-9][0-9]{9}" required="true"/><br/>
 		  		
 		  		<label for="address">Address :</label>
-		  		<form:input path="address" id="address" type="text"/><br/>
+		  		<form:input path="address" id="address" type="text" pattern="[A-Za-z0-9 ]{5,40}" required="true"/><br/>
 		  		
 		  		<label for="email">Email ID :</label>
-		  		<form:input path="email" id="email" type="text"/><br/>
+		  		<form:input path="email" id="email" type="text" pattern="[A-Za-z0-9._%+-]{1,18}@[a-z0-9.-]{1,7}\.[a-z]{2,3}$" required="true"/><br/>
 		  		
 		  		<label for="phoneNumber">Phone Number :</label>
-		  		<form:input path="phoneNumber" id="phoneNumber" type="text"/><br/>
+		  		<form:input path="phoneNumber" id="phoneNumber" pattern="(^$)|(^[0-9]{10}$)" type="text"/><br/>
 		  		
 		  		<input type="submit" value="Submit Details"/>
 			</form:form>

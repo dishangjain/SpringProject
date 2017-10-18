@@ -13,14 +13,18 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" action="hotelBookingByID.obj">
-			<select name="hotelID">
-					<c:forEach items="${ hotelList }" var="hotel">
-						<option value="${hotel.hotelID }">${hotel.hotelName }</option>
-					</c:forEach>
-			</select>
-			<input type="submit" value="View Bookings"/>
-		</form:form>
+		<center>
+			<form:form method="post" action="hotelBookingByID.obj">
+				<label>Select Hotel</label><br/>
+				<select name="hotelID"  required="true">
+						<c:forEach items="${ hotelList }" var="hotel">
+							<option value="${hotel.hotelID }">${hotel.hotelName }</option>
+						</c:forEach>
+				</select>
+				<br/>
+				<input type="submit" value="View Bookings"/>
+			</form:form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

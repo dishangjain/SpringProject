@@ -13,36 +13,36 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" modelAttribute="roomBean"  action="insertRoom.obj" >
-		
-			<label for="hotelID">Hotel ID :</label>
-			<form:select name="hotelID" path="hotelID" id="hotelID">
-					<c:forEach items="${ hotelList }" var="hotel">
-						<option value="${hotel.hotelID }">${hotel.hotelName }</option>
-					</c:forEach>
-			</form:select>
+		<center>
+			<form:form method="post" modelAttribute="roomBean"  action="insertRoom.obj" >
 			
-			<label for="roomNumber">Room Number :</label>
-		  		<form:input path="roomNumber" id="roomNumber" type="text"/><br/>	
-		  		
-		  	<label for="roomType">Room Type :</label>
-		  		<form:select path="roomType" id="roomType" >
-		  			<form:option value="AC Deluxe">AC Deluxe</form:option>
-		  			<form:option value="AC">AC</form:option>
-		  			<form:option value="Non-AC">Non-AC</form:option>
-		  		</form:select>
-		  			<br/>	
-		  	
-		  	<label for="perNightRate">Per Night Rate :</label>
-		  		<form:input path="perNightRate" id="perNightRate" type="text"/><br/>
-		  		
-		  	<label for="photo">Photo :</label>
-		  		<form:input path="photo" id="photo" type="file"/><br/>
-			
-			
-			<input type="submit" value="Confirm Changes"/>
-			
-		</form:form>
+				<label for="hotelID">Hotel ID :</label>
+				<form:select name="hotelID" path="hotelID" id="hotelID" required="true" >
+						<c:forEach items="${ hotelList }" var="hotel">
+							<option value="${hotel.hotelID }">${hotel.hotelName }</option>
+						</c:forEach>
+				</form:select>
+				<br/>
+				<label for="roomNumber">Room Number :</label>
+			  		<form:input path="roomNumber" id="roomNumber" type="text" pattern="[0-9]{3}" required="true"/><br/>	
+			  		
+			  	<label for="roomType">Room Type :</label>
+			  		<form:select path="roomType" id="roomType" >
+			  			<form:option value="AC Deluxe">AC Deluxe</form:option>
+			  			<form:option value="AC">AC</form:option>
+			  			<form:option value="Non-AC">Non-AC</form:option>
+			  		</form:select>
+			  			<br/>	
+			  	
+			  	<label for="perNightRate">Per Night Rate :</label>
+			  		<form:input path="perNightRate" id="perNightRate" type="text" pattern="[1-9][0-9]{0,3}[.]?[0-9]{0,2}" required="true"/><br/>
+			  		
+			  	<label for="photo">Photo : </label><form:input path="photo" id="photo" type="file" required="true"/>
+				<br/>
+				<input type="submit" value="Confirm Changes"/>
+				
+			</form:form>
+		</center>
 		
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>

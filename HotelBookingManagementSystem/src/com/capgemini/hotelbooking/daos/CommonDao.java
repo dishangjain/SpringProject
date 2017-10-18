@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.hotelbooking.beans.BookingBean;
+import com.capgemini.hotelbooking.beans.FeedBackBean;
 import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.beans.UserBean;
@@ -149,5 +150,16 @@ public class CommonDao implements ICommonDao {
 			}
 		}
 		myLogger.info("BookingDetails and RoomDetails Table Updated.");
+	}
+
+	@Override
+	public void storeFeedback(FeedBackBean feedBackBean)
+			throws BookingException {
+		// TODO Auto-generated method stub
+		myLogger.info("Execution in storeFeedBack()");
+		entityManager.persist(feedBackBean);
+		myLogger.info("New Entry -> Name : "+ feedBackBean.getName()
+				+ "\nEmail : " + feedBackBean.getEmail()
+				+ "\nMessage : " + feedBackBean.getMessage());
 	}
 }

@@ -33,7 +33,7 @@
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
 							<h1>Travel-R bUddY</h1>
-							<p>Global Luxurious Hotel experience at your Footstep <a href="www.google.com">Google</a><br />
+							<p>Global Luxurious Hotel experience at your Footstep <br />
 							Regards to - <a href="http://www.talent.capgemini.com/in">Capgemini </a>.</p>
 							<ul class="actions">
 								<li><a href="#one" class="button scrolly">Explore</a></li>
@@ -109,18 +109,18 @@
 							<p>Opportunity to be a buddy of Travel-R bUddY.</p>
 							<div class="split style1">
 								<section>
-									<form method="post" action="#">
+									<form method="post" action="sendFeedback.obj">
 										<div class="field half first">
 											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="name" pattern="[A-Za-z ]{3,30}" required="true" />
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="text" name="email" id="email"  pattern="[A-Za-z0-9._%+-]{1,18}@[a-z0-9.-]{1,7}\.[a-z]{2,3}$" required="true" />
 										</div>
 										<div class="field">
 											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="5"></textarea>
+											<textarea name="message" id="message" rows="5" max="50" required="true"></textarea>
 										</div>
 										<ul class="actions">
 											<li><a href="" class="button submit">Send Message</a></li>

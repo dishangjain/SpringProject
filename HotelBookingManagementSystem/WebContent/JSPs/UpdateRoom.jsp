@@ -10,26 +10,34 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="assets/js/roomUpdation.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form:form method="post" action="updateRoom.obj">
-			<select name="roomID">
-					<c:forEach items="${roomList }" var="room">
-						<option value="${room.roomID }">${room.roomID }</option>
-					</c:forEach>
-			</select>
-			<br>
-			<select name="attributeOption">
-				<option value="1">Room Number</option>
-				<option value="2">Room Type</option>
-				<option value="3">Cost/Night</option>
-				<option value="4">Photo</option>
-			</select>
-			<br>
-			Enter Value : <input name="attributeValue" type="text">
-			<input type="submit" value="Confirm Changes"/>
-		</form:form>
+		<center>
+			<form:form method="post" action="updateRoom.obj">
+				<label>Room to be Updated</label><br/>
+				<select name="roomID" required="true">
+						<c:forEach items="${ roomList }" var="room">
+							<option value="${ room.roomID }">${ room.roomID }</option>
+						</c:forEach>
+				</select>
+				<br>
+				<label>Update Parameter</label><br/>
+				<select name="attributeOption" onchange="addValueBox()">
+					<option value="1">Room Number</option>
+					<option value="2">Room Type</option>
+					<option value="3">Cost/Night</option>
+					<option value="4">Photo</option>
+				</select>
+				<br>
+				<p id="p">
+					<label>Enter Value </label><input name="attributeValue" type="text" required="true">
+				</p>
+				<br>
+				<input type="submit" value="Confirm Changes"/>
+			</form:form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

@@ -11,21 +11,45 @@
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
 		
-		<div id="mainMenu">
-			<a href="addNewHotel.obj">Add new Hotel</a><br>
-			<a href="getHotelList.obj">Update Existing Hotel</a><br>
-			<a href="deleteHotel.obj">Delete a Hotel</a><br>
-			<a href="addNewRoom.obj">Add new Room</a><br>
-			<a href="getRoomList.obj">Update Existing Room</a><br>
-			<a href="deleteRoomList.obj">Delete a room</a><br>
-			<a href="viewAllHotels.obj">View all Hotels</a><br>
-			<a href="getHotelById.obj">View Bookings of Hotels by ID</a><br>
-			<a href="getBookingsByDate.obj">View Bookings of Hotels By Date</a><br>
+		<p>
+		<br>
+			<span class="image right"><img src="images/hotel01.jpeg" alt="" /></span>
+			<div class="6u 12u$(medium)">
+				<ul class="alt">
+					<li><a href="addNewHotel.obj">Add new Hotel</a></li>
+					<li><a href="getHotelList.obj">Update Existing Hotel</a></li>
+					<li><a href="deleteHotel.obj">Delete a Hotel</a></li>
+					<li><a href="addNewRoom.obj">Add new Room</a></li>
+					<li><a href="getRoomList.obj">Update Existing Room</a></li>
+					<li><a href="deleteRoomList.obj">Delete a room</a></li>
+					<li><a href="viewAllHotels.obj">View all Hotels</a></li>
+					<li><a href="getHotelById.obj">View Bookings by Hotel Name</a></li>
+					<li><a href="getBookingsByDate.obj">View Bookings by Booking Date</a></li>
+				</ul>
+			</div>
+		</p>
+		
+	<!-- 	<div class="row" >
+			<div class="6u 12u$(medium)">
+				<ul class="alt">
+					<li><a href="addNewHotel.obj">Add new Hotel</a></li>
+					<li><a href="getHotelList.obj">Update Existing Hotel</a></li>
+					<li><a href="deleteHotel.obj">Delete a Hotel</a></li>
+					<li><a href="addNewRoom.obj">Add new Room</a></li>
+					<li><a href="getRoomList.obj">Update Existing Room</a></li>
+					<li><a href="deleteRoomList.obj">Delete a room</a></li>
+					<li><a href="viewAllHotels.obj">View all Hotels</a></li>
+					<li><a href="getHotelById.obj">View Bookings of Hotels by ID</a></li>
+					<li><a href="getBookingsByDate.obj">View Bookings of Hotels By Date</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="row uniform">
-			<div class="4u"><span class="image fit"><img src="images/pic02.jpeg" alt="" /></span></div>
-			<div class="4u$"><span class="image fit"><img src="images/hotel03.jpeg" alt="" /></span></div>
-		</div>
+			<div class="4u"><span class="image fit"><img src="images/mainpic.jpeg" alt="" /></span></div>
+			<div class="4u"><span class="image fit"><img src="images/hotel01.jpeg" alt="" /></span></div>
+			<div class="4u"><span class="image fit"><img src="images/hotel04.jpeg" alt="" /></span></div>
+			
+		</div> -->
 		<jsp:include page="footer.jsp"></jsp:include>
 		
 	</body>

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.hotelbooking.beans.FeedBackBean;
 import com.capgemini.hotelbooking.beans.HotelBean;
 import com.capgemini.hotelbooking.beans.RoomBean;
 import com.capgemini.hotelbooking.beans.UserBean;
@@ -68,5 +69,13 @@ public class CommonService implements ICommonService {
 	@Override
 	public List<String> retrieveUserNames() throws BookingException {
 		return dao.retrieveUserNames();
+	}
+
+	@Override
+	public void storeFeedback(FeedBackBean feedBackBean)
+			throws BookingException {
+		// TODO Auto-generated method stub
+		dao.storeFeedback(feedBackBean);
+		
 	}
 }

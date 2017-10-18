@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.time.LocalDate"  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -10,10 +11,16 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<form action="searchHotels.obj">
-			Enter City : <input type="text" name="city">
-			<input type="submit" value="Submit City">
-		</form>
+		
+		<center>
+			<form action="searchHotels.obj">
+				<label>Enter City : </label><input type="text" name="city"  pattern="[A-Za-z0-9 ]{3,20}" required="true" ><br/>
+				<label>CheckIn Date : </label><input type="date" class="date" name="checkinDate" min="<%= LocalDate.now()%>" required="true"/><br/>
+				<label>CheckOut Date : </label><input type="date" class="date" name="checkoutDate" min="<%= LocalDate.now().plusDays(1) %>" required="true"/>
+				<br/>
+				<input type="submit" value="Submit City">
+			</form>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>
