@@ -6,17 +6,19 @@
 	<head>
 		<title>Travel-R bUddY</title>
 		<meta charset="utf-8" />
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		
 	</head>
-	<body>
+	<body onload="setMin()">
 		<jsp:include page="header.jsp"></jsp:include>
 		
 		<center>
 			<form action="searchHotels.obj">
 				<label>Enter City : </label><input type="text" name="city"  pattern="[A-Za-z0-9 ]{3,20}" required="true" ><br/>
-				<label>CheckIn Date : </label><input type="date" class="date" name="checkinDate" min="<%= LocalDate.now()%>" required="true"/><br/>
-				<label>CheckOut Date : </label><input type="date" class="date" name="checkoutDate" min="<%= LocalDate.now().plusDays(1) %>" required="true"/>
+				<label>CheckIn Date : </label><input type="date" id="checkin" name="checkinDate" min="<%= LocalDate.now()%>" onchange="validate()" required="true"/><br/>
+				<label>CheckOut Date : </label><input type="date" id="checkout" name="checkoutDate" min="<%= LocalDate.now().plusDays(1) %>" required="true"/>
 				<br/>
 				<input type="submit" value="Submit City">
 			</form>
