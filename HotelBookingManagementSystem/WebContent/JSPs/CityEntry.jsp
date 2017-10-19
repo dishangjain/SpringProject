@@ -6,7 +6,7 @@
 	<head>
 		<title>Travel-R bUddY</title>
 		<meta charset="utf-8" />
-		
+		<script src="assets/js/dateValidation.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 		
