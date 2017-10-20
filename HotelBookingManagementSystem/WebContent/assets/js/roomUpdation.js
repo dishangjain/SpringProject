@@ -21,3 +21,24 @@ function addValueBox()
 		p.innerHTML = "<label>Enter Photo </label><input name='attributeValue' type='file' pattern='[A-za-z]+(.png|.jpeg|.jpg)' required='true'>";
 	}
 }
+
+
+
+function getRoomNumbers(){
+	var hotelID = document.getElementsByName("hotelID")[0];
+	var selectedHotelID = hotelID.options[hotelID.selectedIndex].value;
+	var rooms = document.getElementsByName(selectedHotelID);
+	var roomIDs = new Array();
+	for(i=0;i<rooms.length;i++){
+		roomIDs[i] = rooms[i].value;
+	}
+	var roomID = document.getElementsByName("roomID")[0];
+	for(i=0;i<roomID.options.length;i++){
+		if(roomIDs.includes(roomID.options[i].value)){
+			roomID.options[i].hidden = false;
+		}
+		else{
+			roomID.options[i].hidden = true;
+		}
+	}
+}

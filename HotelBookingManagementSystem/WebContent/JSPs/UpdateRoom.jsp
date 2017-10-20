@@ -16,25 +16,37 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<center>
 			<form:form method="post" action="updateRoom.obj">
-				<label>Room ID for which information to be Updated</label><br/>
+				<label>Hotel Name for which information to be Updated</label><br/>
+				<select name="hotelID" required="true" onchange="getRoomNumbers()">
+						<c:forEach items="${ hotelList }" var="hotel">
+							<option value="${ hotel.hotelID }">${ hotel.hotelName }</option>
+						</c:forEach>
+				</select><br>
+				
+				<c:forEach items="${ roomList }" var="room">
+					<input type="hidden" name="${ room.hotelID }" value="${ room.roomID }">
+				</c:forEach>
+				
+				<label>Select Room Number</label><br/>
 				<select name="roomID" required="true">
 						<c:forEach items="${ roomList }" var="room">
-							<option value="${ room.roomID }">${ room.roomID }</option>
+							<option value="${ room.roomID }" hidden>${ room.roomNumber }</option>
 						</c:forEach>
-				</select>
-				<br>
+				</select><br>
+				
 				<label>Update Parameter</label><br/>
 				<select name="attributeOption" onchange="addValueBox()">
 					<option value="1">Room Number</option>
 					<option value="2">Room Type</option>
 					<option value="3">Cost/Night</option>
 					<option value="4">Photo</option>
-				</select>
-				<br>
+				</select><br>
+				
 				<p id="p">
-					<label>Enter Room Number </label><br/><input name="attributeValue" placeholder="eg. 000" type="text" required="true" pattern="[0-9]{3}"/>
-				</p>
-				<br>
+					<label>Enter Room Number</label><br/>
+					<input name="attributeValue" placeholder="eg. 000" type="text" required="true" pattern="[0-9]{3}"/>
+				</p><br>
+				
 				<input type="submit" value="Confirm Changes"/>
 			</form:form>
 		</center>
