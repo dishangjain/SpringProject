@@ -59,15 +59,27 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping("/getHomePage")
-	public ModelAndView getHomePage() {
+	public ModelAndView getHomePage(HttpServletRequest request) {
 		ModelAndView mAndV = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			session.invalidate();
+			mAndV.addObject(pageHead, "You have successfully logged out.");
+			mAndV.addObject(home, homePage);
+		}
 		mAndV.setViewName("HomePage");
 		return mAndV;
 	}
 	
 	@RequestMapping("/getSignUpPage")
-	public ModelAndView getSignUpPage(){
+	public ModelAndView getSignUpPage(HttpServletRequest request){
 		ModelAndView mAndV = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			session.invalidate();
+			mAndV.addObject(pageHead, "You have successfully logged out.");
+			mAndV.addObject(home, homePage);
+		}
 		UserBean userBean = new UserBean();
 		mAndV.addObject("userBean", userBean);
 		mAndV.addObject(home, homePage);
@@ -93,8 +105,14 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping("/getLoginPage")
-	public ModelAndView getLoginPage() {
+	public ModelAndView getLoginPage(HttpServletRequest request) {
 		ModelAndView mAndV = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			session.invalidate();
+			mAndV.addObject(pageHead, "You have successfully logged out.");
+			mAndV.addObject(home, homePage);
+		}
 		mAndV.addObject(home, homePage);
 		mAndV.setViewName("LoginPage");
 		return mAndV;
@@ -226,8 +244,10 @@ public class HotelBookingController {
 	@RequestMapping(value="/getRoomList")
 	public ModelAndView UpdateRoomList() throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
+		List<HotelBean> hotelList = commonService.retrieveHotels();
 		List<RoomBean> roomList = commonService.retrieveRooms();
 		mAndV.addObject("roomList", roomList);
+		mAndV.addObject("hotelList", hotelList);
 		mAndV.setViewName("UpdateRoom");		
 		return mAndV;
 	}
@@ -394,15 +414,18 @@ public class HotelBookingController {
 	}
 	
 	@RequestMapping("/bookRoom")
-	public ModelAndView bookRoom(HttpServletRequest request,@RequestParam("roomID") int roomID){
+	public ModelAndView bookRoom(HttpServletRequest request,@RequestParam("roomID") int roomID) throws BookingException{
 		ModelAndView mAndV = new ModelAndView();
 		BookingBean bookingBean = new BookingBean();
 		mAndV.addObject("bookingBean", bookingBean);
 		HttpSession session=request.getSession(false);
 		UserBean userBean=(UserBean) session.getAttribute("userBean");
 		int userID= userBean.getUserID();
+		RoomBean roomBean = adminService.retrieveRoomDetails(roomID);
+		String roomNumber = roomBean.getRoomNumber();
 		mAndV.addObject("userID", userID);
 		mAndV.addObject("roomID", roomID);
+		mAndV.addObject("roomNumber", roomNumber);
 		mAndV.setViewName("BookRoom");
 		return mAndV;
 	}
@@ -424,8 +447,8 @@ public class HotelBookingController {
 				+ "<br>Room Number : "+ adminService.retrieveRoomDetails(bookingBean.getRoomID()).getRoomNumber()
 				+ "<br>Amount : "+ bookingBean.getAmount()
 				+ "<br>Hotel Name : "+ adminService.retrieveHotelDetails(adminService.retrieveRoomDetails(bookingBean.getRoomID()).getHotelID()).getHotelName()
-				+ "<br>Booked From : "+ bookedFrom
-				+ "<br>Booked To : "+ bookedTo +".");
+				+ "<br>Check In Date : "+ bookedFrom
+				+ "<br>CheckOut Date : "+ bookedTo +".");
 		mAndV.addObject(home,customerPage);
 		mAndV.setViewName("Success");
 		return mAndV;

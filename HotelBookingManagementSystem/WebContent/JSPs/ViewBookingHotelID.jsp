@@ -28,17 +28,17 @@
 			</tr>
 			<c:forEach items="${bookingList }" var="booking">
 				<tr>
-					<td>${booking.bookingID }</td>
-					<td>${booking.roomID }</td>
-					<td>${booking.userID }</td>
-					<td>${booking.numAdults }</td>
-					<td>${booking.numChildren }</td>
-					<td>${booking.amount }</td>
-					<td>${booking.bookedFrom }</td>
-					<td>${booking.bookedTo }</td>
-					<td>${booking.status }</td>
-					<td>${booking.firstGuestName }</td>
-					<td>${booking.secondGuestName }</td>
+					<td>${ booking.bookingID }</td>
+					<td>${ booking.roomID }</td>
+					<td>${ booking.userID }</td>
+					<td>${ booking.numAdults }</td>
+					<td>${ booking.numChildren }</td>
+					<td>${ booking.amount }</td>
+					<td>${ booking.bookedFrom }</td>
+					<td>${ booking.bookedTo }</td>
+					<td>${ booking.status }</td>
+					<td>${ booking.firstGuestName }</td>
+					<td>${ booking.secondGuestName }</td>
 				</tr>
 			</c:forEach>
 		</table>

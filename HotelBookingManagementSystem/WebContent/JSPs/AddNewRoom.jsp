@@ -24,7 +24,7 @@
 				</form:select>
 				<br/>
 				<label for="roomNumber">Room Number :</label>
-			  		<form:input path="roomNumber" id="roomNumber" type="text" pattern="[0-9]{3}" required="true"/><br/>	
+			  		<form:input path="roomNumber" id="roomNumber" type="text" pattern="[0-9]{3}" placeholder="eg. 000" required="true"/><br/>	
 			  		
 			  	<label for="roomType">Room Type :</label>
 			  		<form:select path="roomType" id="roomType" >
@@ -35,7 +35,7 @@
 			  			<br/>	
 			  	
 			  	<label for="perNightRate">Per Night Rate :</label>
-			  		<form:input path="perNightRate" id="perNightRate" type="text" pattern="[1-9][0-9]{0,3}[.]?[0-9]{0,2}" required="true"/><br/>
+			  		<form:input path="perNightRate" id="perNightRate" type="text" pattern="[1-9][0-9]{0,3}[.]?[0-9]{0,2}" placeholder="eg. 1234.56" required="true"/><br/>
 			  		
 			  	<label for="photo">Photo : </label><form:input path="photo" id="photo" type="file" required="true"/>
 				<br/>

@@ -14,25 +14,27 @@
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
 		<center>
+		
+			<label>Room Number :</label>
+			<h3>${ roomNumber }</h3><br>
+			
 			<form:form method="post" modelAttribute="bookingBean" action="insertBookingDetails.obj">
 	  		
 	  			<label for="firstGuestName">First Guest Name :</label>
-		  		<form:input path="firstGuestName" id="firstGuestName" type="text" pattern="[A-Za-z ]{3,30}" required="true"/><br/>
+		  		<form:input path="firstGuestName" id="firstGuestName" type="text" pattern="[A-Za-z ]{3,30}" placeholder="Enter your Name" required="true"/><br/>
 		  		
 		  		<label for="secondGuestName">Second Guest Name :</label>
-		  		<form:input path="secondGuestName" id="secondGuestName" type="text" pattern="[A-Za-z ]{3,30}"/><br/>
+		  		<form:input path="secondGuestName" id="secondGuestName" type="text" placeholder="Enter second Name(Optional)" pattern="[A-Za-z ]{3,30}"/><br/>
 	  			
-		  		<label for="roomID">Room ID :</label>
-		  		<form:input path="roomID" id="roomID" type="text" value="${roomID }" readonly="true"/><br/>
+		  		<form:input path="roomID" id="roomID" type="hidden" value="${ roomID }" readonly="true"/>
 		  		
-		  		<label for="userID">User ID :</label>
-		  		<form:input path="userID" id="userID" type="text" value="${userID }" readonly="true"/><br/>
+		  		<form:input path="userID" id="userID" type="hidden" value="${ userID }" readonly="true"/>
 		  		
 		  		<label for="numAdults">Number of Adults :</label>
-		  		<form:input path="numAdults" id="numAdults" type="text"  pattern="[1-3]" min="1" max="3" required="true" /><br/>
+		  		<form:input path="numAdults" id="numAdults" type="text"  pattern="[1-3]" placeholder="eg. 1-9" min="1" max="3" required="true" /><br/>
 		  		
 		  		<label for="numChildren">Number of Children :</label>
-		  		<form:input path="numChildren" id="numChildren" type="text" pattern="[0-3]" min="0" max="3" required="true"/><br/>
+		  		<form:input path="numChildren" id="numChildren" type="text" pattern="[0-3]" placeholder="eg. 0-9" min="0" max="3" required="true"/><br/>
 		  		
 		  		<input type="submit" value="Confirm Booking"/>
 			</form:form>

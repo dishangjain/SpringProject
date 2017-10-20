@@ -10,7 +10,9 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
-		<h1>${pageHead }</h1>
+		<center>
+			<h3>${ pageHead }</h3>
+		</center>
 		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 </html>

@@ -61,7 +61,7 @@ public class CustomerDao implements ICustomerDao {
 	public List<List<Object>> viewBookingStatus(int userId) throws BookingException {
 		List<BookingBean> bookingList = new ArrayList<BookingBean>();
 		myLogger.info("Execution in viewBookingStatus()");
-		String query = "SELECT b FROM BookingBean b WHERE b.userID = :userId AND b.status='active'";
+		String query = "SELECT b FROM BookingBean b WHERE b.userID = :userId";
 		TypedQuery<BookingBean> qry = entityManager.createQuery(query, BookingBean.class);
 		qry.setParameter("userId", userId);
 		bookingList = qry.getResultList();

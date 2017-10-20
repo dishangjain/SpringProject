@@ -112,15 +112,15 @@
 									<form method="post" action="sendFeedback.obj">
 										<div class="field half first">
 											<label for="name">Name</label>
-											<input type="text" name="name" id="name" pattern="[A-Za-z ]{3,30}" required="true" />
+											<input type="text" name="name" id="name" pattern="[A-Za-z ]{3,30}" required="true" placeholder="Name"/>
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email"  pattern="[A-Za-z0-9._%+-]{1,18}@[a-z0-9.-]{1,7}\.[a-z]{2,3}$" required="true" />
+											<input type="text" name="email" id="email"  pattern="[A-Za-z0-9._%+-]{1,18}@[a-z0-9.-]{1,7}\.[a-z]{2,3}$" required="true" placeholder="Email"/>
 										</div>
 										<div class="field">
 											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="5" max="50" required="true"></textarea>
+											<textarea name="message" id="message" rows="5" max="50" required="true" placeholder="Please enter feedback"></textarea>
 										</div>
 										<ul class="actions">
 											<li><a href="" class="button submit">Send Message</a></li>

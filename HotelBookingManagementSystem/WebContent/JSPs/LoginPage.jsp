@@ -18,11 +18,11 @@
 			<div class="row uniform" align="center">
 				<div class="6u 12u$(xsmall)">
 					<label for="userName">User Name : </label>
-					<input type="text" name="userName" id="userName" placeholder="Enter User Name" pattern="[A-Za-z0-9 ]{6,15}"  required="true"/>
+					<input type="text" name="userName" id="userName" placeholder="Enter User Name" pattern="[A-Za-z0-9 ]{6,15}" placeholder="Username" required="true"/>
 				</div>
 				<div class="6u 12u$(xsmall)">
 					<label for="password">Password : </label>
-					<input type="password" name="password" id="password" placeholder="Enter Password" maxlength="32" required="true"/>
+					<input type="password" name="password" id="password" placeholder="Enter Password" maxlength="32" required="true" placeholder="Password"/>
 				</div>
 				<div class="12u$" align="center">
 					<ul class="actions">

@@ -17,8 +17,8 @@
 			<form:form method="post" action="deleteRoom.obj">
 				<label>Room to be Deleted</label><br/>
 				<select name="roomID" required="true">
-						<c:forEach items="${roomList }" var="room">
-							<option value="${room.roomID }">${room.roomID }</option>
+						<c:forEach items="${ roomList }" var="room">
+							<option value="${ room.roomID }">${ room.roomID }</option>
 						</c:forEach>
 				</select><br>
 			<input type="submit" value="Delete Room"/>

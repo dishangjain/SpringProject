@@ -37,8 +37,8 @@
 					<option value="10">Fax</option>
 				</select>
 				<p id="p">
-					<label for="attributeValue">Enter Value : </label>
-					<input name="attributeValue" type="text" required="true">
+					<label for="attributeValue">Enter City : </label>
+					<input name="attributeValue" type="text" required="true" pattern="[A-Za-z0-9 ]{3,20}" placeholder="Please enter city"/>
 				</p>
 				<input type="submit" value="Confirm Changes"/>
 			</form:form>

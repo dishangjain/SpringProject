@@ -16,7 +16,7 @@
 		
 		<center>
 			<form action="searchHotels.obj">
-				<label>Enter City : </label><input type="text" name="city"  pattern="[A-Za-z0-9 ]{3,20}" required="true" ><br/>
+				<label>Enter City : </label><input type="text" name="city"  pattern="[A-Za-z0-9 ]{3,20}" required="true" placeholder="Please enter city"><br/>
 				<label>CheckIn Date : </label><input type="date" id="checkin" name="checkinDate" min="<%= LocalDate.now()%>" onchange="validate()" required="true"/><br/>
 				<label>CheckOut Date : </label><input type="date" id="checkout" name="checkoutDate" min="<%= LocalDate.now().plusDays(1) %>" required="true"/>
 				<br/>

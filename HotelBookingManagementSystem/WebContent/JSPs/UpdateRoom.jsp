@@ -16,7 +16,7 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<center>
 			<form:form method="post" action="updateRoom.obj">
-				<label>Room to be Updated</label><br/>
+				<label>Room ID for which information to be Updated</label><br/>
 				<select name="roomID" required="true">
 						<c:forEach items="${ roomList }" var="room">
 							<option value="${ room.roomID }">${ room.roomID }</option>
@@ -32,7 +32,7 @@
 				</select>
 				<br>
 				<p id="p">
-					<label>Enter Value </label><input name="attributeValue" type="text" required="true">
+					<label>Enter Room Number </label><br/><input name="attributeValue" placeholder="eg. 000" type="text" required="true" pattern="[0-9]{3}"/>
 				</p>
 				<br>
 				<input type="submit" value="Confirm Changes"/>
